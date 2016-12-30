@@ -1,0 +1,9 @@
+<div class="card" ng-hide="edit" ng-click="edit=true">
+	<p>{{mv.value.title}}</p>
+	<span class="description">{{mv.value.description}}</span>
+</div>
+
+<div ng-show="edit" >
+	<textarea ng-change="update()" ng-model=mv.value.title>{{mv.value.title}}</textarea>
+	<a href="" ng-click="edit=false">close</a>
+</div>
