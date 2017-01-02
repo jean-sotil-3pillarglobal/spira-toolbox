@@ -1,18 +1,25 @@
 (function() {
     if (!app.controllers) app.controllers = {};
 
-    app.controllers.admin = function($scope, $state, authService) {
+    /*Admin Ctrl*/
+    app.controllers.admin = function($scope, 
+    								 $state, 
+    								 authService) {
     	
     	$scope.init = function(){
 
 			/*Check if user is logged already.*/
 	    	if(authService.isLoggedAlready()) {
-	    		$state.go("home");
+	    		$state.transitionTo('me');
 	    	} else {
-	    		$state.go("auth");
+	    		$state.transitionTo('auth');
 	    	}
 		};
     };
 
-    app.controller("AdminCtrl", ["$scope", "$state", "authService", app.controllers.admin]);
+    /*Admin Def*/
+    app.controller("AdminCtrl", ["$scope", 
+    							 "$state", 
+    							 "authService", 
+    							 app.controllers.admin]);
 }())

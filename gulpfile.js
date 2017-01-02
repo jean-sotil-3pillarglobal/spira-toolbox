@@ -40,16 +40,6 @@ gulp.task("less", function(){
 	.pipe(gulp.dest(config.publicPaths.css));
 });
 
-gulp.task('copy-views', function() {
-    gulp.src('./src/views/**/*')
-    .pipe(gulp.dest('./public/views'));
-});
-
-gulp.task('copy-html',  ["copy-views"], function() {
-    gulp.src('./src/index.html')
-    .pipe(gulp.dest('./public'));
-});
-
 //running server task.
 gulp.task("live-server", function(){
 	var server = liveServer("./server.js");

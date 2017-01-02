@@ -1,8 +1,8 @@
 if (!app) var app = angular.module('myApp', ['ui.router', 'ui.mask']);
 
 /*ui-router routes*/
-app.config(['$stateProvider','$urlRouterProvider',
-	function ($stateProvider, $urlRouterProvider) { 
+app.config(['$stateProvider','$urlRouterProvider', '$sceDelegateProvider',
+	function ($stateProvider, $urlRouterProvider, $sceDelegateProvider) { 
         $stateProvider.
             state('auth', {
                 url: '/auth',
