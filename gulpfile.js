@@ -41,12 +41,12 @@ gulp.task("less", function(){
 });
 
 //running server task.
-gulp.task("live-server", function(){
+gulp.task("live", function(){
 	var server = liveServer("./server.js");
 	server.start();
 });
 
-gulp.task("sync", ["live-server", "copy-html", "bundle", "less"], function(){
+gulp.task("sync", ["live", "bundle", "less"], function(){
 	browserSync.init(null, {
 		proxy:"http://localhost:"+config.port,
 		port:9001
