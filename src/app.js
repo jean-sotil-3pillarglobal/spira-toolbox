@@ -1,4 +1,9 @@
-if (!app) var app = angular.module('myApp', ['ui.router', 'ui.mask']);
+if (!app) var app = angular.module('myApp', ['ui.router', 
+                                             'ui.mask', 
+                                             'LocalStorageModule',
+                                             'ngResource',
+                                             'ngSanitize',
+                                             'nya.bootstrap.select']);
 
 /*ui-router routes*/
 app.config(['$stateProvider','$urlRouterProvider', '$sceDelegateProvider',
@@ -10,17 +15,22 @@ app.config(['$stateProvider','$urlRouterProvider', '$sceDelegateProvider',
                 controllerAs: 'mv',
                 templateUrl: './views/home/auth.html'
             }).
-            state('me', {
-            	url: '/me',
+            state('app', {
+            	url: '/app',
             	templateUrl : './views/home/home.html',
-            	resolve:{
-            		projects:function(){
-            			return "here is a project!";
-            		}
-            	}
+                controllerAs: "mv"
             }).
-            state('me.projects', {
-            	url: '/projects',
-            	templateUrl : './views/projects/projectList.html'
+            state('app.projects', {
+                url: '/projects',
+                templateUrl : './views/projects/projectList.html',
+                controllerAs : "mv"
+            }).
+            state('app.releases', {
+                url: "/projects/:id",
+                templateUrl : './views/projects/projectReleases.html',
+                controllerAs : "mv",
+                controller : "ProjectCtrl"
             });
+
+            $urlRouterProvider.otherwise('/');
 }]);

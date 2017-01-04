@@ -3,6 +3,9 @@
 	app.component("appheader", {
 		templateUrl: "./views/commons/header.html",
 		controllerAs : "mv",
-		controller: ['$scope', 'constantsService', app.controllers.header]
+		controller: ['$scope', 
+					 'constantsService', 
+					 'localStorageService', 
+					 app.controllers.header]
 	});
 }());

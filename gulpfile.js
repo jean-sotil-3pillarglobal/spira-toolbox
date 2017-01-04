@@ -15,6 +15,7 @@ gulp.task("bundle", function(){
 	return gulp.src([
 		"./src/*.js", 
 		"./src/controllers/*.js", 
+		"./src/filters/*.js", 
 		"./src/services/*.js", 
 		"./src/components/**/*.js"])
 	.pipe(uglify())
@@ -29,7 +30,8 @@ gulp.task("less", function(){
 	.pipe(less({
 		paths:[
 			"./node_modules/bootstrap-less",
-			"./node_modules/toastr"
+			"./node_modules/toastr",
+			"./node_modules/nya-bootstrap-select"
 		]
 	}))
 	.pipe(minifyCSS({
@@ -56,7 +58,6 @@ gulp.task("sync", ["live", "bundle", "less"], function(){
 //Watch for changes
 gulp.task("watch", function(){
 	gulp.watch("./src/**/*.js", ['bundle']);
-	gulp.watch("./src/**/*.html", ['copy-html']);
 	gulp.watch(config.devPaths.less, ['less']); 
 	//"Watch" every html file, and if any change, run 'html', 'js' task.
 });

@@ -6,9 +6,9 @@
 		APP_DESCRIPTION : "Great for learning Angular features.",
 		APP_VERSION : "1.0",
 		APP_NAVIGATION : [
-			{state:'me', header:'Me', active: true},
-			{state:'projects', header:'Projects', active: false},
-			{state:'charts', header:'Charts', active: false}
+			{state:'app', header:'Me', active: false},
+			{state:'app.projects', header:'Projects', active: false},
+			{state:'app.charts', header:'Charts', active: false}
 		],
 		/*Auth Ctrl*/
 		APP_AUTH_SUCCESS_TITLE : "Awesome.",

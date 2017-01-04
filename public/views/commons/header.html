@@ -1,6 +1,10 @@
-
-<ul class="nav nav-tabs">{{mv.hello}}
-  <li role="presentation" ng-class="{{mv.isActive(item)}}" ng-repeat="item in mv.items">
-	<a ui-sref="{{item.state}}" ui-sref-active="active">{{item.header}}</a>
+<div class="panel-heading">
+   <div class="panel-title text-center">
+   		<img src="https://spira.dxide.com/App_Themes/InflectraTheme/Images/ProductLogo.gif" alt="..." class="img-thumbnail">
+   	</div>
+</div> 
+<ul class="nav nav-tabs">
+  <li role="presentation" ng-repeat="item in mv.items" ng-click="mv.setActive(item)" ui-sref-active="active">
+	<a ui-sref="{{item.state}}" >{{(item.state == 'app')? "("+mv.username+")":item.header}}</a>
   </li>
 </ul>

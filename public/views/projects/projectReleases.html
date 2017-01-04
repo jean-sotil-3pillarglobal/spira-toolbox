@@ -1,0 +1,40 @@
+
+<div>
+	<div class="well" ng-show="showUsers">
+		<span ng-repeat="user in users" class="badge">{{user.FullName}} &#9680;</span> 
+	</div>
+	<div class="list-group pull-right">
+		<a class="list-group-item cols-sm-2" ng-click="showUsers = !showUsers">
+			<i class="fa fa-user fa-fw" aria-hidden="true"></i>&nbsp; {{!showUsers?"show":"hide"}} users
+		</a>
+	</div>
+</div>
+
+<h3>{{project.Name}} <span class="small">{{project.ProjectId}}</span></h3>
+<div class="form-group">
+	<label>Choose a release:</label>
+	<ol class="nya-bs-select" ng-model="selected.release" ng-change="filterReleaseById(selected.release.ReleaseId)" data-live-search="true">
+	  <li nya-bs-option="release in releases">
+	  	<a>{{release.Name}}
+	  		<span class="glyphicon glyphicon-ok check-mark"></span>
+	  	</a>
+	  </li>
+	</ol>
+</div>
+
+<!-- <div class="form-group">
+	<label>Choose type:</label>
+	<ol class="nya-bs-select" ng-model="selected.type" data-live-search="false">
+	  <li nya-bs-option="type in incidentsTypes">
+	  	<a>{{type.Name}}
+	  		<span class="glyphicon glyphicon-ok check-mark"></span>
+	  	</a>
+	  </li>
+	</ol>
+</div>
+ -->
+<div class="list-group">
+	<div ng-show="filteredByRelease.length == 0">No incidents</div>
+	<div class="list-group-item" ng-repeat="incident in filteredByRelease"> {{incident.Name}}
+	</div>
+</div>

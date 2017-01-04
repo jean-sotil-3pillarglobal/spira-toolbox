@@ -3,11 +3,9 @@
 
     /*Admin Ctrl*/
     app.controllers.header = function($scope, 
-    								  constantsService) {
+    								  constantsService, 
+    								  localStorageService) {
     	$scope.mv.items = constantsService.APP_NAVIGATION;
-
-        $scope.mv.isActive = function(state){
-           return (state == true)?'active':'';
-        };
+        $scope.mv.username = localStorageService.get("username");
     };
 }())
