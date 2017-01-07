@@ -14,7 +14,11 @@
 		APP_AUTH_SUCCESS_TITLE : "Awesome.",
 		APP_AUTH_SUCCESS_MESSAGE : "You were successfully authenticated.",
 		APP_AUTH_ERROR_TITLE : "Oh no!.",
-		APP_AUTH_ERROR_MESSAGE : "Please provide valid user information."
+		APP_AUTH_ERROR_MESSAGE : "Please provide valid user information.",
+
+		/*Projects Dates*/
+		APP_PROJECT_MONTHS : [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ],
+		APP_PROJECT_YEARS : ["2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025", "2025", "2026" ]
 
 	};
 

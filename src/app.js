@@ -3,11 +3,12 @@ if (!app) var app = angular.module('myApp', ['ui.router',
                                              'LocalStorageModule',
                                              'ngResource',
                                              'ngSanitize',
-                                             'nya.bootstrap.select']);
+                                             'nya.bootstrap.select',
+                                             'chart.js']);
 
 /*ui-router routes*/
-app.config(['$stateProvider','$urlRouterProvider', '$sceDelegateProvider',
-	function ($stateProvider, $urlRouterProvider, $sceDelegateProvider) { 
+app.config(['$stateProvider','$urlRouterProvider', '$sceDelegateProvider', 'ChartJsProvider',
+	function ($stateProvider, $urlRouterProvider, $sceDelegateProvider, ChartJsProvider) { 
         $stateProvider.
             state('auth', {
                 url: '/auth',
@@ -17,13 +18,11 @@ app.config(['$stateProvider','$urlRouterProvider', '$sceDelegateProvider',
             }).
             state('app', {
             	url: '/app',
-            	templateUrl : './views/home/home.html',
-                controllerAs: "mv"
+            	templateUrl : './views/home/home.html'
             }).
             state('app.projects', {
                 url: '/projects',
-                templateUrl : './views/projects/projectList.html',
-                controllerAs : "mv"
+                templateUrl : './views/projects/projectList.html'
             }).
             state('app.releases', {
                 url: "/projects/:id",
@@ -33,4 +32,7 @@ app.config(['$stateProvider','$urlRouterProvider', '$sceDelegateProvider',
             });
 
             $urlRouterProvider.otherwise('/');
+
+            /*ChartJsProvider*/
+            ChartJsProvider.setOptions({ colors : [ '#803690', '#00ADF9', '#DCDCDC', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'] });
 }]);

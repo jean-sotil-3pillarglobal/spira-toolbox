@@ -1,0 +1,13 @@
+<div class="well">
+	<div class="spinner text-center" ng-hide="$ctrl.data.length > 0">
+		<i class="fa fa-cog fa-spin fa-3x fa-fw"></i>
+		<span class="sr-only">Loading...</span>
+	</div>
+
+	<div ng-show="$ctrl.data.length > 0">
+		<h4 class="text-center">{{$ctrl.title}}</h4 class="text-center">
+		<canvas id="bar" class="chart chart-bar {{$ctrl.selector}}"
+		 	chart-data="$ctrl['data']" chart-labels="$ctrl['labels']" chart-series="$ctrl['series']" >
+		</canvas>
+	</div>
+</div>

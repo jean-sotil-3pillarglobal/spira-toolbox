@@ -11,30 +11,40 @@
 </div>
 
 <h3>{{project.Name}} <span class="small">{{project.ProjectId}}</span></h3>
+
+
 <div class="form-group">
-	<label>Choose a release:</label>
-	<ol class="nya-bs-select" ng-model="selected.release" ng-change="filterReleaseById(selected.release.ReleaseId)" data-live-search="true">
-	  <li nya-bs-option="release in releases">
-	  	<a>{{release.Name}}
+	<label>Choose Year:</label>
+	<ol class="nya-bs-select" ng-model="selected.year" data-live-search="true" ng-change="updateValues()">
+	  <li nya-bs-option="year in years track by $index">
+	  	<a>{{year}}
 	  		<span class="glyphicon glyphicon-ok check-mark"></span>
 	  	</a>
 	  </li>
 	</ol>
 </div>
 
-<!-- <div class="form-group">
-	<label>Choose type:</label>
-	<ol class="nya-bs-select" ng-model="selected.type" data-live-search="false">
-	  <li nya-bs-option="type in incidentsTypes">
-	  	<a>{{type.Name}}
+<!-- Incidents reported by year -->
+<bars labels="chart1.labels" series="chart1.series" data="chart1.data" selector="bars" title="Total Incidents Reported By Year {{selected.year}}" /></bars>
+
+<!-- Incidents reported by releases -->
+<bars labels="chart2.labels" series="chart2.series" data="chart2.data" selector="bars" title="Total Incidents Reported By Release" /></bars>
+
+{{chart2.labels.length}}
+{{chart2.data.length}}
+
+<div class="form-group">
+	<label>Choose a release:</label>
+	<ol class="nya-bs-select" ng-model="selected.release" ng-change="filterReleaseById(selected.release.ReleaseId)" data-live-search="true">
+	  <li nya-bs-option="release in releases track by $index">
+	  	<a>{{release.Name}}
 	  		<span class="glyphicon glyphicon-ok check-mark"></span>
 	  	</a>
 	  </li>
 	</ol>
 </div>
- -->
 <div class="list-group">
 	<div ng-show="filteredByRelease.length == 0">No incidents</div>
-	<div class="list-group-item" ng-repeat="incident in filteredByRelease"> {{incident.Name}}
+	<div class="list-group-item" ng-repeat="incident in filteredByRelease track by $index"> {{incident.Name}}
 	</div>
 </div>

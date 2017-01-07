@@ -8,4 +8,4 @@
     	$scope.mv.items = constantsService.APP_NAVIGATION;
         $scope.mv.username = localStorageService.get("username");
     };
-}())
+}());

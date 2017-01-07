@@ -44,14 +44,20 @@
 		};
 
 		/*Get project incidents by id*/
-		var getProjectIncidentsById = function(id){
+		var getProjectIncidentsById = function(id, count){
 			var url = makeURL(apiService.PROJECT_INCIDENTS, getUsername(), getToken());
-			return getData(url.replace('{0}', id));
+			return getData(url.replace('{0}', id).replace('{1}', count));
 		};
 
 		/*Get project incidents by id*/
 		var getProjectIncidentsTypeById = function(id){
 			var url = makeURL(apiService.PROJECT_INCIDENTS_TYPES, getUsername(), getToken());
+			return getData(url.replace('{0}', id));
+		};
+
+		/*Get project incidents total count by id*/
+		var getProjectIncidentsCountById = function(id){
+			var url = makeURL(apiService.PROJECT_INCIDENTS_COUNT, getUsername(), getToken());
 			return getData(url.replace('{0}', id));
 		};
 
@@ -68,7 +74,7 @@
 
 		/*Build URL with credentials*/
 		var makeURL = function(url, username, token){
-			return url+"?username=" + username + "&api-key=" + token;
+			return url+"username=" + username + "&api-key=" + token;
 		};
 
 		return {
@@ -78,7 +84,8 @@
 			getProjectReleasesById : getProjectReleasesById,
 			getProjectUsersById : getProjectUsersById,
 			getProjectIncidentsById : getProjectIncidentsById,
-			getProjectIncidentsTypeById : getProjectIncidentsTypeById
+			getProjectIncidentsTypeById : getProjectIncidentsTypeById,
+			getProjectIncidentsCountById : getProjectIncidentsCountById
 		};
 	};
 
