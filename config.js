@@ -1,6 +1,6 @@
 module.exports = function(){
 	var config = {
-		"port" : 0880,
+		"port" : 5555,
 		"devPaths": {
 			"less" : "./src/styles/**/*.less",
 			"js" : "./src/**/*.js",

@@ -14,7 +14,8 @@ var autoprefixer = require("gulp-autoprefixer");
 gulp.task("bundle", function(){
 	return gulp.src([
 		"./src/*.js", 
-		"./src/controllers/*.js", 
+		"./src/controllers/*.js",
+		"./src/controllers/**/*.js", 
 		"./src/filters/*.js", 
 		"./src/services/*.js", 
 		"./src/components/**/*.js"])

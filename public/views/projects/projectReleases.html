@@ -15,7 +15,7 @@
 
 <div class="form-group">
 	<label>Choose Year:</label>
-	<ol class="nya-bs-select" ng-model="selected.year" data-live-search="true" ng-change="updateValues()">
+	<ol class="nya-bs-select" ng-model="selected.year" data-live-search="true" ng-change="build()">
 	  <li nya-bs-option="year in years track by $index">
 	  	<a>{{year}}
 	  		<span class="glyphicon glyphicon-ok check-mark"></span>
@@ -25,26 +25,43 @@
 </div>
 
 <!-- Incidents reported by year -->
-<bars labels="chart1.labels" series="chart1.series" data="chart1.data" selector="bars" title="Total Incidents Reported By Year {{selected.year}}" /></bars>
+<bars labels="chart1.labels" series="chart1.series" data="chart1.data" selector="chart1" year="selected.year" display="chart1.display" options="chart1.options" colors="chart1.colors"/></bars>
 
 <!-- Incidents reported by releases -->
-<bars labels="chart2.labels" series="chart2.series" data="chart2.data" selector="bars" title="Total Incidents Reported By Release" /></bars>
-
-{{chart2.labels.length}}
-{{chart2.data.length}}
+<bars labels="chart2.labels" series="chart2.series" data="chart2.data" selector="chart2" year="selected.year" display="chart2.display" options="chart2.options"/></bars>
 
 <div class="form-group">
 	<label>Choose a release:</label>
-	<ol class="nya-bs-select" ng-model="selected.release" ng-change="filterReleaseById(selected.release.ReleaseId)" data-live-search="true">
-	  <li nya-bs-option="release in releases track by $index">
-	  	<a>{{release.Name}}
+	<ol class="nya-bs-select" ng-model="selected.release" ng-change="filterReleaseByReleaseVersion(selected.release)" data-live-search="true">
+	  <li nya-bs-option="release in releasesNames track by $index">
+	  	<a>{{release.FullName}}
 	  		<span class="glyphicon glyphicon-ok check-mark"></span>
 	  	</a>
 	  </li>
 	</ol>
 </div>
+
 <div class="list-group">
-	<div ng-show="filteredByRelease.length == 0">No incidents</div>
-	<div class="list-group-item" ng-repeat="incident in filteredByRelease track by $index"> {{incident.Name}}
+	<div ng-show="filteredByRelease.length == 0">No values to display.</div>
+
+	<!-- Release incidents reported by type -->
+	<div ng-show="filteredByRelease.length > 0">
+		<h3>{{selected.release.Name}} <span class="small">{{selected.release.ReleaseId}}</span></h3>
+		<div class="row">
+		  <div class="col-md-6">
+			<bars labels="chart3.labels" series="chart3.series" data="chart3.data" selector="chart3" year="selected.release.Name" display="chart3.display" options="chart3.options"/></bars>
+		  </div>
+		  <div class="col-md-6">
+			<bars labels="chart4.labels" series="chart4.series" data="chart4.data" selector="chart4" year="selected.release.Name" display="chart4.display" options="chart4.options"/></bars>
+		  </div>
+		</div>
+		<div class="row">
+		  <div class="col-md-12">
+			<bars labels="chart5.labels" series="chart5.series" data="chart5.data" selector="chart5" year="selected.release.Name" display="chart5.display" options="chart5.options"/></bars>
+		  </div>
+		  <div class="col-md-6">
+			
+		  </div>
+		</div>
 	</div>
 </div>

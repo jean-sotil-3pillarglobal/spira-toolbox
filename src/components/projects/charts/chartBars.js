@@ -8,7 +8,12 @@
 			title: '@',
 			labels : '=',
 			series : '=',
-			click : '='
-		}
+			display : '=',
+			options : '=',
+			year : '=',
+			colors: '='
+		},
+		controllerAs : "mv",
+		controller: ["$scope", app.controllers.chartBars]
 	});
 }());

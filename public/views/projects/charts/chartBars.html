@@ -1,13 +1,15 @@
-<div class="well">
-	<div class="spinner text-center" ng-hide="$ctrl.data.length > 0">
-		<i class="fa fa-cog fa-spin fa-3x fa-fw"></i>
-		<span class="sr-only">Loading...</span>
+<div class="well" ng-init="init()">
+
+	<div class="spinner text-center" ng-hide="mv.data.length > 0">
+		<i  class="fa fa-cog fa-spin fa-3x fa-fw"></i>
+		<span  class="sr-only">Loading...</span>
 	</div>
 
-	<div ng-show="$ctrl.data.length > 0">
-		<h4 class="text-center">{{$ctrl.title}}</h4 class="text-center">
-		<canvas id="bar" class="chart chart-bar {{$ctrl.selector}}"
-		 	chart-data="$ctrl['data']" chart-labels="$ctrl['labels']" chart-series="$ctrl['series']" >
+	<div ng-show="mv.data.length > 0 && mv.display">
+		<h4 class="text-center">{{mv.title}}</h4 class="text-center">
+		<span class="badge pull-right">{{mv.year}}</span>
+		<canvas id="{{mv.selector}}" class="chart chart-bar"
+		 	chart-data="mv['data']" chart-labels="mv['labels']" chart-series="mv['series']" chart-options="mv['options']" chart-colors="$ctrl.colors">
 		</canvas>
 	</div>
 </div>
