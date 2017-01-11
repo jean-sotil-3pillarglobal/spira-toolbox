@@ -75,6 +75,11 @@
                   filtered.push(item);
               } 
             break;
+            case 'filterByPriorityName': /*For releases*/
+              if (item.PriorityName == value) {
+                  filtered.push(item);
+              } 
+            break;
 
   	      }
   	    }

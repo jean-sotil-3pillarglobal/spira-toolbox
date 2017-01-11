@@ -8,8 +8,6 @@
 	<div ng-show="mv.data.length > 0 && mv.display">
 		<h4 class="text-center">{{mv.title}}</h4 class="text-center">
 		<span class="badge pull-right">{{mv.year}}</span>
-		<canvas id="{{mv.selector}}" class="chart chart-bar"
-		 	chart-data="mv['data']" chart-labels="mv['labels']" chart-series="mv['series']" chart-options="mv['options']" chart-colors="$ctrl.colors">
-		</canvas>
+		<canvas id="{{mv.selector}}"></canvas>
 	</div>
 </div>

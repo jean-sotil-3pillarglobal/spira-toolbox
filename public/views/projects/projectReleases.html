@@ -25,10 +25,10 @@
 </div>
 
 <!-- Incidents reported by year -->
-<bars labels="chart1.labels" series="chart1.series" data="chart1.data" selector="chart1" year="selected.year" display="chart1.display" options="chart1.options" colors="chart1.colors"/></bars>
+<bars selector="chart1" data="chart1.data" year="selected.year" display="chart1.display" /></bars>
 
 <!-- Incidents reported by releases -->
-<bars labels="chart2.labels" series="chart2.series" data="chart2.data" selector="chart2" year="selected.year" display="chart2.display" options="chart2.options"/></bars>
+<bars selector="chart2" data="chart2.data" year="selected.year" display="chart2.display" /></bars>
 
 <div class="form-group">
 	<label>Choose a release:</label>
@@ -49,18 +49,23 @@
 		<h3>{{selected.release.Name}} <span class="small">{{selected.release.ReleaseId}}</span></h3>
 		<div class="row">
 		  <div class="col-md-6">
-			<bars labels="chart3.labels" series="chart3.series" data="chart3.data" selector="chart3" year="selected.release.Name" display="chart3.display" options="chart3.options"/></bars>
+			  <bars selector="chart3" data="chart3.data" year="selected.release.VersionNumber" display="chart3.display" /></bars>
 		  </div>
 		  <div class="col-md-6">
-			<bars labels="chart4.labels" series="chart4.series" data="chart4.data" selector="chart4" year="selected.release.Name" display="chart4.display" options="chart4.options"/></bars>
+		  	<bars selector="chart4" data="chart4.data" year="selected.release.VersionNumber" display="chart4.display" /></bars>
 		  </div>
 		</div>
 		<div class="row">
 		  <div class="col-md-12">
-			<bars labels="chart5.labels" series="chart5.series" data="chart5.data" selector="chart5" year="selected.release.Name" display="chart5.display" options="chart5.options"/></bars>
+			<bars selector="chart5" data="chart5.data" year="selected.release.VersionNumber" display="chart5.display" /></bars>
 		  </div>
 		  <div class="col-md-6">
 			
+		  </div>
+		</div>
+		<div class="row">
+		  <div class="col-md-12">
+			<bars selector="chart6" data="chart6.data" year="selected.release.VersionNumber" display="chart6.display" /></bars>
 		  </div>
 		</div>
 	</div>

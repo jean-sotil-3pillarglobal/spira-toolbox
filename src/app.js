@@ -3,12 +3,11 @@ if (!app) var app = angular.module('myApp', ['ui.router',
                                              'LocalStorageModule',
                                              'ngResource',
                                              'ngSanitize',
-                                             'nya.bootstrap.select',
-                                             'chart.js']);
+                                             'nya.bootstrap.select']);
 
 /*ui-router routes*/
-app.config(['$stateProvider','$urlRouterProvider', '$sceDelegateProvider', 'ChartJsProvider',
-	function ($stateProvider, $urlRouterProvider, $sceDelegateProvider, ChartJsProvider) { 
+app.config(['$stateProvider','$urlRouterProvider', '$sceDelegateProvider',
+	function ($stateProvider, $urlRouterProvider, $sceDelegateProvider) { 
         $stateProvider.
             state('auth', {
                 url: '/auth',
@@ -32,9 +31,4 @@ app.config(['$stateProvider','$urlRouterProvider', '$sceDelegateProvider', 'Char
             });
 
             $urlRouterProvider.otherwise('/');
-
-            /*ChartJsProvider*/
-            ChartJsProvider.setOptions({ 
-                colors : [ '#803690', '#00ADF9', '#DCDCDC', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360']
-            });
 }]);

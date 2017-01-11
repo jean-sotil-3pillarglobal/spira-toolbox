@@ -6,12 +6,8 @@
 			data : '=',
 			selector : '@',
 			title: '@',
-			labels : '=',
-			series : '=',
 			display : '=',
-			options : '=',
 			year : '=',
-			colors: '='
 		},
 		controllerAs : "mv",
 		controller: ["$scope", app.controllers.chartBars]
