@@ -61,6 +61,12 @@
 			return getData(url.replace('{0}', id));
 		};
 
+		/*Get project incidents total count by id*/
+		var getProjectCustomPropertiesById = function(id){
+			var url = makeURL(apiService.PROJECT_CUSTOM_TYPES, getUsername(), getToken());
+			return getData(url.replace('{0}', id));
+		};
+
 		/*Utils*/
 		//
 		/*Get data from URL*/
@@ -85,7 +91,8 @@
 			getProjectUsersById : getProjectUsersById,
 			getProjectIncidentsById : getProjectIncidentsById,
 			getProjectIncidentsTypeById : getProjectIncidentsTypeById,
-			getProjectIncidentsCountById : getProjectIncidentsCountById
+			getProjectIncidentsCountById : getProjectIncidentsCountById,
+			getProjectCustomPropertiesById : getProjectCustomPropertiesById
 		};
 	};
 

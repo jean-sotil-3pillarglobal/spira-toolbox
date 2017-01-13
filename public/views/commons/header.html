@@ -4,7 +4,7 @@
    	</div>
 </div> 
 <ul class="nav nav-tabs">
-  <li role="presentation" ng-repeat="item in mv.items" ng-click="mv.setActive(item)" ui-sref-active="active">
-	<a ui-sref="{{item.state}}" >{{(item.state == 'app')? "("+mv.username+")":item.header}}</a>
+  <li role="presentation" ng-repeat="item in mv.items" ng-click="mv.setActive(item)" ui-sref-active="active" ng-hide="{{item.state == 'app.reviewer'}}">
+	<a ui-sref="{{item.state}}" >{{(item.state == 'app')? mv.username:item.header}}</a>
   </li>
 </ul>

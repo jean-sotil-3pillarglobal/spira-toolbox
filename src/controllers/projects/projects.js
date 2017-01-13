@@ -8,15 +8,17 @@
                                         $filter,
                                         $timeout,
                                         constantsService,
-                                        helperService) {
+                                        helperService,
+                                        toastrService) {
 
-        $scope.projectId = $stateParams.id;
         $scope.selected = {};
+        $scope.selected.projects = [];
+        $scope.selectAll = false;
         $scope.releases = [];
         $scope.users = [];
         $scope.project = [];
         $scope.incidents = [];
-        $scope.incidentsTypes = [];
+        $scope.customProperties = [];
         $scope.filteredByRelease = [];
         $scope.years = [];
 
@@ -35,9 +37,9 @@
         dataService.getProjectUsersById($stateParams.id).then(function(response){
             $scope.users = response.data;
         });
-        dataService.getProjectIncidentsTypeById($stateParams.id).then(function(response){
-            $scope.incidentsTypes = response.data;
-        });
+        // dataService.getProjectCustomPropertiesById($stateParams.id).then(function(response){
+        //     $scope.customProperties = response.data;
+        // });
         dataService.getProjectIncidentsCountById($stateParams.id).then(function(response){
             /*get total count of incidents by project*/
             dataService.getProjectIncidentsById($stateParams.id, response.data).then(function(response){
@@ -68,7 +70,6 @@
             $scope.filteredByRelease = [];
         };
 
-        /*Functions*/
         /*Filtered by Release by Month*/
         $scope.filterReleaseByMonths = function(){
             var chart1;
@@ -145,8 +146,6 @@
                                             constantsService.CHART_COLORS[0],
                                             constantsService.CHART_COLORS[1],
                                             '');
-
-
         };
         /*Filtered Release Incidents by Type*/
         $scope.filterReleaseByReleaseVersion = function(release){
@@ -278,6 +277,50 @@
                                             constantsService.CHART_COLORS[1],
                                             'random');
         };
+
+        $scope.chooseProject = function(project){
+            project.Checked = !project.Checked;
+            if(!project.Checked) {
+                /*Delete from array*/
+                $scope.selected.projects.map(function(item){
+                    if(item == project.ProjectId) {
+                        $scope.selected.projects.splice($scope.selected.projects.indexOf(item), 1);
+                        toastrService.info("Project Unselected", project.Name+" unselected.");
+                    };
+                });
+                return;
+            } else {
+                /*Check if it's not already and push.*/
+                var flag = false;
+                $scope.selected.projects.map(function(item){
+                    if(item == project.ProjectId) flag = true;
+                });
+
+                if(!flag) {
+                    $scope.selected.projects.push(project.ProjectId);
+                    toastrService.info("Project Selected", project.Name+" selected.");
+                }
+
+
+            }
+        };
+        $scope.toggleAllSelect = function(){
+            if(!$scope.selectAll){
+                $scope.projects.map(function(project){
+                    project.Checked = true;
+                    $scope.selected.projects.push(project.ProjectId);
+                });
+                $scope.selectAll = true;
+                toastrService.info("All Selected", $scope.selected.projects.length+" projects were selected.");
+            } else {
+                $scope.projects.map(function(project){
+                    project.Checked = false;
+                });
+                $scope.selected.projects = [];
+                $scope.selectAll = false;
+                toastrService.info("None", "no projects are selected.");
+            }
+        }
     };
 
     /*ProjectCtrl Def*/
@@ -288,5 +331,6 @@
                                     '$timeout',
                                     'constantsService',
                                     'helperService',
+                                    'toastrService',
                                     app.controllers.projects]);
 }())

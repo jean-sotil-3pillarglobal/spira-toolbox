@@ -1,8 +1,27 @@
+<div class="well text-right">
+	<a class="btn btn-lg btn-primary" ng-click="toggleAllSelect()">{{(selectAll?'Un-check All':'check All')}}</a>
+</div>
+
 <h3>My Projects</h3>
 <div class="list-group">
-	<div class="list-group-item" ng-repeat="project in projects">
-		<h4 class="cols-sm-10">{{project.Name}} <em>({{project.ProjectId}})</em></h4>
-		<p class="help-block small" ng-bind-html="project.Description | trust"></p>
-		<a ui-sref="app.releases({ id: project.ProjectId })" class="btn btn-primary" ng-disabled="{{!project.Active}}">See releases</a>
+	<div class="list-group-item " ng-repeat="project in projects" ng-click="chooseProject(project)" ng-class="{checked:project.Checked}" ng-init="project.Checked=false">
+		<div class="form-group row">
+			<label class="col-sm-11">
+				<h4 class="cols-sm-10">{{project.Name}} <em>({{project.ProjectId}})</em></h4>
+				<p class="help-block small" ng-bind-html="project.Description | trust"></p>
+				<a ui-sref="app.releases({ id: project.ProjectId })" class="btn btn-primary" ng-disabled="{{!project.Active}}">See releases</a>
+			</label>
+			<div class="col-sm-1 checkbox" ng-show="project.Checked">
+				<label style="font-size: 2.5em">
+				    <input type="checkbox" ng-model="project.Checked" ng-hide="true">
+				    <span class="cr"><i class="cr-icon fa fa-check"></i></span>
+				</label>
+			</div>
+		</div>
+	</div>
+	
+	<div class="well text-right" ng-show="selected.projects.length > 0">
+		<a ui-sref="app.reviewer({projects:selected.projects})" class="btn btn-lg btn-primary" >Projects to review ({{selected.projects.length}})</a>
 	</div>
 </div>
+

@@ -121,8 +121,11 @@
 		    		case 'Open':
 		    			return constantsService.CHART_COLORS[4];
 		    		break;
-		    		case 'Retest Dev':
+		    		case 'Retest DEV':
 		    			return constantsService.CHART_COLORS[5];
+		    		break;
+		    		case 'Retest QA':
+		    			return constantsService.CHART_COLORS[12];
 		    		break;
 		    		case 'Rejected':
 		    			return constantsService.CHART_COLORS[6];

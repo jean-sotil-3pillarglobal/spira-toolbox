@@ -21,13 +21,21 @@ app.config(['$stateProvider','$urlRouterProvider', '$sceDelegateProvider',
             }).
             state('app.projects', {
                 url: '/projects',
-                templateUrl : './views/projects/projectList.html'
+                templateUrl : './views/projects/projectList.html',
+                controller : "ProjectCtrl"
             }).
             state('app.releases', {
-                url: "/projects/:id",
+                url: "/project/:id/releases",
                 templateUrl : './views/projects/projectReleases.html',
                 controllerAs : "mv",
                 controller : "ProjectCtrl"
+            }).
+            state('app.reviewer', {
+                params: { projects: {} },
+                url : '/reviewer',
+                templateUrl : './views/projects/projectsViewer.html',
+                controllerAs: 'mv',
+                controller : "ProjectViewerCtrl"
             });
 
             $urlRouterProvider.otherwise('/');

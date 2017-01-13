@@ -8,7 +8,7 @@
 		APP_NAVIGATION : [
 			{state:'app', header:'Me', active: false},
 			{state:'app.projects', header:'Projects', active: false},
-			{state:'app.charts', header:'Charts', active: false}
+			{state:'app.reviewer', header:'Reviewer', active: false}
 		],
 		/*Auth Ctrl*/
 		APP_AUTH_SUCCESS_TITLE : "Awesome.",
@@ -40,6 +40,7 @@
 					  'rgb(245,216,87)', //Medium[9]
 					  'rgb(244,243,86)', //Low[10]
 					  'rgb(244,116,87)', //High[11]
+					  'rgb(228,255,0)', //Retest QA[12]
 					  ]
 	};
 
