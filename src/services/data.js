@@ -67,6 +67,12 @@
 			return getData(url.replace('{0}', id));
 		};
 
+		/*Get project incidents by CreationDate*/
+		var getProjectIncidentsByCreationDate = function(id, count, creationDate){
+			var url = makeURL(apiService.PROJECT_INCIDENTS_DATE, getUsername(), getToken());
+			return getData(url.replace('{0}', id).replace('{1}', count).replace('{2}', creationDate));
+		};
+
 		/*Utils*/
 		//
 		/*Get data from URL*/
@@ -92,7 +98,8 @@
 			getProjectIncidentsById : getProjectIncidentsById,
 			getProjectIncidentsTypeById : getProjectIncidentsTypeById,
 			getProjectIncidentsCountById : getProjectIncidentsCountById,
-			getProjectCustomPropertiesById : getProjectCustomPropertiesById
+			getProjectCustomPropertiesById : getProjectCustomPropertiesById,
+			getProjectIncidentsByCreationDate : getProjectIncidentsByCreationDate
 		};
 	};
 

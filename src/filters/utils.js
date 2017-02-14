@@ -20,7 +20,7 @@
   	      	  };
 
   	      	  var monthDate = new Date(moment(item.CreationDate)).getMonthName();
-  	      	  if (monthDate == value) {
+              if (monthDate == value) {
   	      	    filtered.push(item);
   	      	  } 
   	      	break;
@@ -47,6 +47,11 @@
             break;
             case 'filterByReleaseVersionNumber': /*For incidents*/
               if (item.DetectedReleaseVersionNumber == value) {
+                filtered.push(item);
+              } 
+            break;
+            case 'filterByReleaseProjectName': /*For incidents*/
+              if (item.ProjectName == value) {
                 filtered.push(item);
               } 
             break;
@@ -79,6 +84,14 @@
               if (item.PriorityName == value) {
                   filtered.push(item);
               } 
+            break;
+            case 'filterByDateRanges' :
+                var objDate = moment(dateFormat(moment(new Date(moment(item.CreationDate))), "yyyy-mm-dd")),
+                    dates = value.split("|"),
+                    startDate = moment(dates[0]), endDate = moment(dates[1]);
+                if(objDate.isSameOrBefore(endDate)) {
+                  filtered.push(item);
+                }
             break;
 
   	      }

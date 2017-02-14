@@ -165,7 +165,14 @@
                     display: true,
                     text: constantsService.CHART_TITLES[2]
                 },
-                legend:{display:false}
+                legend:{display:false},
+                scales: {
+                    xAxes: [{
+                        ticks: {
+                            fontSize: 8
+                        }
+                    }]
+                }
             };
 
             chart3 = helperService.setChartObject('chart3', 
@@ -283,7 +290,7 @@
             if(!project.Checked) {
                 /*Delete from array*/
                 $scope.selected.projects.map(function(item){
-                    if(item == project.ProjectId) {
+                    if(item.ProjectId == project.ProjectId) {
                         $scope.selected.projects.splice($scope.selected.projects.indexOf(item), 1);
                         toastrService.info("Project Unselected", project.Name+" unselected.");
                     };
@@ -293,22 +300,21 @@
                 /*Check if it's not already and push.*/
                 var flag = false;
                 $scope.selected.projects.map(function(item){
-                    if(item == project.ProjectId) flag = true;
+                    if(item.ProjectId == project.ProjectId) flag = true;
                 });
 
                 if(!flag) {
-                    $scope.selected.projects.push(project.ProjectId);
-                    toastrService.info("Project Selected", project.Name+" selected.");
+                    $scope.selected.projects.push(project);
+                    toastrService.info("Project", project.Name+" selected.");
                 }
-
-
             }
         };
         $scope.toggleAllSelect = function(){
             if(!$scope.selectAll){
+                $scope.selected.projects = [];
                 $scope.projects.map(function(project){
                     project.Checked = true;
-                    $scope.selected.projects.push(project.ProjectId);
+                    $scope.selected.projects.push(project);
                 });
                 $scope.selectAll = true;
                 toastrService.info("All Selected", $scope.selected.projects.length+" projects were selected.");

@@ -1,4 +1,69 @@
 
 <div>
-	{{mv.$resolve.$stateParams.projects}}
+	<div class="panel panel-default">
+	  <!-- <div class="panel-heading"><i>Choosen projects:</i></div> -->
+	  <div class="panel-body">
+		<span class="badge" ng-repeat="project in projects">{{project.Name}} &#9680;</span>	
+	  </div>
+	</div>
+
+	<div class="panel panel-default">
+	  <div class="panel-heading"><i>Filter By:</i></div>
+	  <div class="panel-body">
+	    <div class="btn-group" data-toggle="buttons">
+			<label class="btn">
+				<input type="radio" name='filterBy' ng-model="filterBy" value="month"><i class="fa fa-circle-o fa-2x"></i><i class="fa fa-dot-circle-o fa-2x"></i> <span class="small">  Week</span>
+			</label>
+			<label class="btn">
+				<input type="radio" name='filterBy' ng-model="filterBy" value="year"><i class="fa fa-circle-o fa-2x"></i><i class="fa fa-dot-circle-o fa-2x"></i><span class="small"> Month</span>
+			</label>
+			<label class="btn">
+				<input type="radio" name='filterBy' ng-model="filterBy" value="decade"><i class="fa fa-circle-o fa-2x"></i><i class="fa fa-dot-circle-o fa-2x"></i><span class="small"> Year</span>
+			</label>
+	    </div>
+		<p class="lead panel-body"
+				 ng-show="filterBy"
+		         moment-picker="selected.date" 
+		         min-view="{{filterBy}}"
+		         max-view="{{filterBy}}"
+		         format="YYYY-MM-DD">
+		  <i class="glyphicon glyphicon-calendar"></i>&nbsp;
+		  {{ selected.date || "Click here to select a date" }}
+		</p>
+		
+
+		<div class="text-left" ng-show="selected.date">
+			<label class="col-sm-11">
+				<h4 class="cols-sm-10">From:</h4>
+				<p class="help-block small">{{startDate}}</p>
+			</label>
+			<label class="col-sm-11">
+				<h4 class="cols-sm-10">To:</h4>
+				<p class="help-block small">{{endDate}}</p>
+			</label>
+			<a class="btn btn-lg btn-primary" ng-click="runReviewer()">Start Reviewer</a>
+		</div>
+
+	  </div>
+	</div>
+	
+	<div class="panel panel-default">
+		<span class="badge pull-right" ng-show="loading"> loading </span>
+		<div class="spinner text-center" ng-show="loading">
+			<i  class="fa fa-cog fa-spin fa-3x fa-fw"></i>
+		</div>
+
+		<div ng-show="incidents.length > 0 && !loading">
+			
+			<!-- Incidents reported by months -->
+			<bars selector="chart1" data="chart1.data" year="chartTitle" display="chart1.display" /></bars>
+			
+			<!-- Incidents reported by project name -->
+			<bars selector="chart2" data="chart2.data" year="chartTitle" display="chart2.display" /></bars>
+			
+			<!-- Incidents reported by release version -->
+			<bars selector="chart3" data="chart3.data" year="chartTitle" display="chart3.display" /></bars>
+		</div>
+	</div>
 </div>
+

@@ -3,7 +3,8 @@ if (!app) var app = angular.module('myApp', ['ui.router',
                                              'LocalStorageModule',
                                              'ngResource',
                                              'ngSanitize',
-                                             'nya.bootstrap.select']);
+                                             'nya.bootstrap.select',
+                                             'moment-picker']);
 
 /*ui-router routes*/
 app.config(['$stateProvider','$urlRouterProvider', '$sceDelegateProvider',
@@ -34,7 +35,6 @@ app.config(['$stateProvider','$urlRouterProvider', '$sceDelegateProvider',
                 params: { projects: {} },
                 url : '/reviewer',
                 templateUrl : './views/projects/projectsViewer.html',
-                controllerAs: 'mv',
                 controller : "ProjectViewerCtrl"
             });
 

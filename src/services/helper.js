@@ -33,6 +33,12 @@
 		                var year = moment(value[index]).year();
 		                if(container.indexOf(year) == -1 && year) container.push(year);
 		            break;
+		            case 'month':
+		                var month = constantsService.APP_PROJECT_MONTHS[moment(value[index]).month()]
+		                if(container.indexOf(month) == -1 && month) {
+		                	container.push(month);
+		                }
+		            break;
 		        }
 		    });
 		    return container;
@@ -47,7 +53,7 @@
 		    return empty;
 		};
 		/*Get Chart.js Object*/
-		var setChartObject = function(id, type, labels, data, options, label, bgColor, borderColor, typeChart){
+		var setChartObject = function(id, type, labels, data, options, label, bgColor, borderColor, typeChart, animation){
 		    var chart = document.getElementById(id);
 		    var	body={};
 		        body.options={};
@@ -62,27 +68,29 @@
 		            };
 				    /*Chart extra options.*/
 				    body.options = options;
-				    body.options.events = false;
-				    body.options.tooltips = {enabled:true};
-				    //body.options.hover = {animationDuration: 0};
-				    body.options.animation = {
-				    	duration: 1,
-		    	        onComplete: function () {
-		    	            var chartInstance = this.chart,
-		    	                ctx = chartInstance.ctx;
-			    	            ctx.font = Chart.helpers.fontString(8, 'bold', Chart.defaults.global.defaultFontFamily);
-			    	            ctx.textAlign = 'center';
-			    	            ctx.textBaseline = 'bottom';
+				    if(animation == undefined || animation == true) {
+					    body.options.events = false;
+					    body.options.tooltips = {enabled:true};
+					    //body.options.hover = {animationDuration: 0};
+					    body.options.animation = {
+					    	duration: 1,
+			    	        onComplete: function () {
+			    	            var chartInstance = this.chart,
+			    	                ctx = chartInstance.ctx;
+				    	            ctx.font = Chart.helpers.fontString(10, 'bold', Chart.defaults.global.defaultFontFamily);
+				    	            ctx.textAlign = 'center';
+				    	            ctx.textBaseline = 'bottom';
 
-			    	            this.data.datasets.forEach(function (dataset, i) {
-			    	                var meta = chartInstance.controller.getDatasetMeta(i);
-			    	                meta.data.forEach(function (bar, index) {
-			    	                    var data = dataset.data[index];    
-			    	                    ctx.fillStyle = 'black';                        
-			    	                    ctx.fillText(data, bar._model.x, bar._model.y - 2);
-			    	                });
-			    	            });
-		    	        }
+				    	            this.data.datasets.forEach(function (dataset, i) {
+				    	                var meta = chartInstance.controller.getDatasetMeta(i);
+				    	                meta.data.forEach(function (bar, index) {
+				    	                    var data = dataset.data[index];    
+				    	                    ctx.fillStyle = 'black';                        
+				    	                    ctx.fillText(data, bar._model.x, bar._model.y - 2);
+				    	                });
+				    	            });
+			    	        }
+					    }
 				    }
 		    	break;
 		    	case 'pie':
@@ -161,13 +169,20 @@
 		    })); 
 		};
 
+		var getIncidentsByDateRanges = function(objs, date1, date2) {
+			var filter = [dateFormat(date1, "yyyy-mm-dd")+"|"+dateFormat(date2, "yyyy-mm-dd"), 'filterByDateRanges'];
+			
+			return $filter('filterFindBy')(objs, filter);
+		}
+
 		return {
 			bindArrayWithQuantity : bindArrayWithQuantity,
 			bindArrayWithValue : bindArrayWithValue,
 			getLabelsArray : getLabelsArray,
 			validateDataArray : validateDataArray,
 			setChartObject : setChartObject,
-			getColorsArray : getColorsArray
+			getColorsArray : getColorsArray,
+			getIncidentsByDateRanges : getIncidentsByDateRanges
 		};
 	};
 
