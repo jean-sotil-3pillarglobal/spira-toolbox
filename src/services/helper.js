@@ -55,8 +55,14 @@
 		/*Get Chart.js Object*/
 		var setChartObject = function(id, type, labels, data, options, label, bgColor, borderColor, typeChart, animation){
 		    var chart = document.getElementById(id);
+		    var ctx =  chart.getContext('2d');
 		    var	body={};
 		        body.options={};
+
+		    /*clear*/
+		    ctx.clearRect(0, 0, chart.width, chart.height);
+		    ctx.beginPath();
+
 		    switch(type){
 		    	case 'bar':
 		    		dataset = {
@@ -114,6 +120,38 @@
 
 		    chart = new Chart(chart, body);
 		}
+
+		/*Set labels, data and if is valid chart*/
+		var getDataChartObject = function(incidents, attr, type, filterType){
+			var labels  =  getLabelsArray(incidents, attr, type),
+				data    =  bindArrayWithQuantity(labels, incidents, filterType),
+				display =  validateDataArray(data);
+
+			return {
+				labels : labels,
+				data : data,
+				display : display
+			}
+		}
+
+		var getOpsChartObject = function(titleIndex, showLegend, fontSize, xAxesFontSize){
+			return {
+				scales: {
+				    xAxes: [{
+				        ticks: {
+				            fontSize: xAxesFontSize
+				        }
+				    }]
+				},
+				defaultFontSize: fontSize,
+                defaultFontStyle:"italic",
+                title: {
+                    display: true,
+                    text: constantsService.CHART_TITLES[titleIndex]
+                },
+                legend:{display:showLegend}
+            };
+		};
 
 		var getColorsArray = function(color, arr, type){
 		    return (arr.map(function(item){
@@ -181,6 +219,8 @@
 			getLabelsArray : getLabelsArray,
 			validateDataArray : validateDataArray,
 			setChartObject : setChartObject,
+			getDataChartObject : getDataChartObject,
+			getOpsChartObject : getOpsChartObject,
 			getColorsArray : getColorsArray,
 			getIncidentsByDateRanges : getIncidentsByDateRanges
 		};

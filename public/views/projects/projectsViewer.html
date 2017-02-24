@@ -8,61 +8,80 @@
 	</div>
 
 	<div class="panel panel-default">
-	  <div class="panel-heading"><i>Filter By:</i></div>
-	  <div class="panel-body">
-	    <div class="btn-group" data-toggle="buttons">
-			<label class="btn">
-				<input type="radio" name='filterBy' ng-model="filterBy" value="month"><i class="fa fa-circle-o fa-2x"></i><i class="fa fa-dot-circle-o fa-2x"></i> <span class="small">  Week</span>
-			</label>
-			<label class="btn">
-				<input type="radio" name='filterBy' ng-model="filterBy" value="year"><i class="fa fa-circle-o fa-2x"></i><i class="fa fa-dot-circle-o fa-2x"></i><span class="small"> Month</span>
-			</label>
-			<label class="btn">
-				<input type="radio" name='filterBy' ng-model="filterBy" value="decade"><i class="fa fa-circle-o fa-2x"></i><i class="fa fa-dot-circle-o fa-2x"></i><span class="small"> Year</span>
-			</label>
-	    </div>
-		<p class="lead panel-body"
-				 ng-show="filterBy"
-		         moment-picker="selected.date" 
-		         min-view="{{filterBy}}"
-		         max-view="{{filterBy}}"
-		         format="YYYY-MM-DD">
-		  <i class="glyphicon glyphicon-calendar"></i>&nbsp;
-		  {{ selected.date || "Click here to select a date" }}
-		</p>
-		
+	  <div class="panel-body">    	
 
-		<div class="text-left" ng-show="selected.date">
+	    <div class="btn-group">
+			<label>Start date: </label>
+			<p class="lead panel-body"
+			         moment-picker="startDate" 
+			         min-view="month"
+			         max-view="month"
+			         format="YYYY-MM-DD">
+			  <i class="glyphicon glyphicon-calendar"></i>&nbsp;
+			  <span>{{ startDate || "No selected"}}</span>
+			</p>
+
+			<label>End date: </label>
+			<p class="lead panel-body"
+			         moment-picker="endDate" 
+			         min-view="month"
+			         max-view="month"
+			         format="YYYY-MM-DD">
+			  <i class="glyphicon glyphicon-calendar"></i>&nbsp;
+			  <span>{{ endDate || "No selected"}}</span>
+			</p>
+	    </div>
+
+		<div class="text-left" ng-show="startDate">
 			<label class="col-sm-11">
 				<h4 class="cols-sm-10">From:</h4>
 				<p class="help-block small">{{startDate}}</p>
 			</label>
 			<label class="col-sm-11">
 				<h4 class="cols-sm-10">To:</h4>
-				<p class="help-block small">{{endDate}}</p>
+				<p class="help-block small">{{endDate || ' Today'}}</p>
 			</label>
-			<a class="btn btn-lg btn-primary" ng-click="runReviewer()">Start Reviewer</a>
+			<a class="btn btn-lg btn-primary" ng-click="runReviewer()" ng-disabled="!startDate">Generate</a>
 		</div>
 
 	  </div>
 	</div>
 	
-	<div class="panel panel-default">
-		<span class="badge pull-right" ng-show="loading"> loading </span>
-		<div class="spinner text-center" ng-show="loading">
-			<i  class="fa fa-cog fa-spin fa-3x fa-fw"></i>
-		</div>
+	<div class="panel panel-default"  ng-show="incidents.length > 0">
 
-		<div ng-show="incidents.length > 0 && !loading">
+		<!-- Reported by Month -->
+		<bars selector="chart1" data="chart1.data" year="chartTitle" display="chart1.display" /></bars>
+		
+		<!-- Reported by Project Name -->
+		<bars selector="chart2" data="chart2.data" year="chartTitle" display="chart2.display" /></bars>
+		
+		<!-- Reported by Release Version -->
+		<bars selector="chart3" data="chart3.data" year="chartTitle" display="chart3.display" /></bars>
+
+		<div class="cf">
 			
-			<!-- Incidents reported by months -->
-			<bars selector="chart1" data="chart1.data" year="chartTitle" display="chart1.display" /></bars>
-			
-			<!-- Incidents reported by project name -->
-			<bars selector="chart2" data="chart2.data" year="chartTitle" display="chart2.display" /></bars>
-			
-			<!-- Incidents reported by release version -->
-			<bars selector="chart3" data="chart3.data" year="chartTitle" display="chart3.display" /></bars>
+			<div class="row">
+			  <div class="col-md-6">
+				  <!-- Reported by Type Name -->
+				  <bars selector="chart4" data="chart4.data" year="chartTitle" display="chart4.display" /></bars>
+			  </div>
+			  <div class="col-md-6">
+			  	  <!-- Reported by Status -->
+			  	  <bars selector="chart5" data="chart5.data" year="chartTitle" display="chart5.display" /></bars>
+			  </div>
+			</div>
+			<div class="row">
+			  <div class="col-md-12">
+				  <!-- Reported by Opener -->
+				  <bars selector="chart6" data="chart6.data" year="chartTitle" display="chart6.display" /></bars>
+			  </div>
+			</div>
+			<div class="row">
+			  <div class="col-md-12">
+				  <!-- Reported by Opener -->
+				  <bars selector="chart7" data="chart7.data" year="chartTitle" display="chart7.display" /></bars>
+			  </div>
+			</div>
 		</div>
 	</div>
 </div>

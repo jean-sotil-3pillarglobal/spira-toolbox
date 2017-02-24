@@ -25,6 +25,7 @@
         $scope.chart4 = {};
         $scope.chart5 = {};
         $scope.chart6 = {};
+        $scope.chart7 = {};
 
         $scope.$watch('selected.date', function() {
             $scope.getDates();
@@ -69,29 +70,27 @@
         $scope.init = function(){
             $scope.chartTitle = dateFormat($scope.startDate, "yyyy-mm-dd")+" → "+dateFormat($scope.endDate, "yyyy-mm-dd");
             $scope.incidents = helperService.getIncidentsByDateRanges($scope.incidents, $scope.startDate, $scope.endDate);
-            $scope.filterReleaseByMonths();
-            $scope.filterByReleases();
-            $scope.filterByProjectName();
+            
+            /*Call charts*/
+            $scope.filterProjectsByMonths();
+            $scope.filterProjectsByProjectName();
+            $scope.filterProjectsByReleases();
+            $scope.filterProjectsByTypeName();
+            $scope.filterProjectsByStatus();
+            $scope.filterProjectsByOpener();
+            $scope.filterProjectsByPriority();
             
         };
 
         /*Filtered by Release by Month*/
-        $scope.filterReleaseByMonths = function(){
-            $scope.chart1 = {};
-            $scope.chart1.labels = helperService.getLabelsArray($scope.incidents, 'CreationDate', 'month');
-            $scope.chart1.data = helperService.bindArrayWithQuantity($scope.chart1.labels, $scope.incidents, 'filterByMonth');
-            $scope.chart1.display = helperService.validateDataArray($scope.chart1.data);
-            
-            /*Chart 1 - Custom Options*/
-            $scope.chart1.options = {
-                defaultFontStyle:"italic",
-                title: {
-                    display: true,
-                    text: ""
-                },
-                legend:{display:true}
-            };
+        $scope.filterProjectsByMonths = function(){
 
+            $scope.chart1 = helperService.getDataChartObject($scope.incidents, 
+                                            'CreationDate', 
+                                            'month', 
+                                            'filterByMonth');
+            
+            $scope.chart1.options = helperService.getOpsChartObject(0, true, 10, 10);
             $scope.chart1.chart = helperService.setChartObject('chart1', 
                                             'bar', 
                                             $scope.chart1.labels,
@@ -104,30 +103,14 @@
         };
         
         /*Filtered by Project Name*/
-        $scope.filterByProjectName = function(){
-            $scope.chart2 = {};
-            $scope.chart2.labels = helperService.getLabelsArray($scope.incidents, 'ProjectName', 'default');
-            $scope.chart2.data = helperService.bindArrayWithQuantity($scope.chart2.labels, $scope.incidents, 'filterByReleaseProjectName');
-            $scope.chart2.display = helperService.validateDataArray($scope.chart2.data);
-            
-            /*Chart 3 - Custom Options*/
-            $scope.chart2.options = {
-                defaultFontSize:4,
-                scales: {
-                    xAxes: [{
-                        ticks: {
-                            fontSize: 8
-                        }
-                    }]
-                },
-                defaultFontStyle:"italic",
-                title: {
-                    display: true,
-                    text: ""
-                },
-                legend:{display:false}
-            };
+        $scope.filterProjectsByProjectName = function(){
 
+            $scope.chart2 = helperService.getDataChartObject($scope.incidents, 
+                                            'ProjectName', 
+                                            'default', 
+                                            'filterByReleaseProjectName');
+            
+            $scope.chart2.options = helperService.getOpsChartObject(6, false, 4, 6.5);
             $scope.chart2.chart = helperService.setChartObject('chart2', 
                                             'bar', 
                                             $scope.chart2.labels,
@@ -140,35 +123,98 @@
         };
 
         /*Filtered by Releases*/
-        $scope.filterByReleases = function(){
-            $scope.chart3 = {};
-            $scope.chart3.labels = helperService.getLabelsArray($scope.incidents, 'DetectedReleaseVersionNumber', 'default');
-            $scope.chart3.data = helperService.bindArrayWithQuantity($scope.chart3.labels, $scope.incidents, 'filterByReleaseVersionNumber');
-            $scope.chart3.display = helperService.validateDataArray($scope.chart3.data);
+        $scope.filterProjectsByReleases = function(){
             
-            /*Chart 2 - Custom Options*/
-            $scope.chart3.options = {
-                defaultFontSize:4,
-                scales: {
-                    xAxes: [{
-                        ticks: {
-                            fontSize: 7
-                        }
-                    }]
-                },
-                defaultFontStyle:"italic",
-                title: {
-                    display: true,
-                    text: ""
-                },
-                legend:{display:false}
-            };
-
+            $scope.chart3 = helperService.getDataChartObject($scope.incidents, 
+                                            'DetectedReleaseVersionNumber', 
+                                            'default', 
+                                            'filterByReleaseVersionNumber');
+            
+            $scope.chart3.options = helperService.getOpsChartObject(1, false, 4, 6);
             $scope.chart3.chart = helperService.setChartObject('chart3', 
                                             'bar', 
                                             $scope.chart3.labels,
                                             $scope.chart3.data,
                                             $scope.chart3.options,
+                                            'Incidents',
+                                            constantsService.CHART_COLORS[0],
+                                            constantsService.CHART_COLORS[1],
+                                            '');
+        };
+
+        /*Filtered by Type Name*/
+        $scope.filterProjectsByTypeName = function(){
+            
+            $scope.chart4 = helperService.getDataChartObject($scope.incidents, 
+                                            'IncidentTypeName', 
+                                            'default', 
+                                            'filterByIncidentTypeName');
+            
+            $scope.chart4.options = helperService.getOpsChartObject(2, false, 4, 6);
+            $scope.chart4.chart = helperService.setChartObject('chart4', 
+                                            'bar', 
+                                            $scope.chart4.labels,
+                                            $scope.chart4.data,
+                                            $scope.chart4.options,
+                                            'Incidents',
+                                            constantsService.CHART_COLORS[0],
+                                            constantsService.CHART_COLORS[1],
+                                            '');
+        };
+
+        /*Filtered by Status*/
+        $scope.filterProjectsByStatus = function(){
+
+            $scope.chart5 = helperService.getDataChartObject($scope.incidents, 
+                                            'IncidentStatusName', 
+                                            'default', 
+                                            'filterByIncidentStatusName');
+            
+            $scope.chart5.options = helperService.getOpsChartObject(3, true, 4, 6);
+            $scope.chart5.chart = helperService.setChartObject('chart5', 
+                                            'pie', 
+                                            $scope.chart5.labels,
+                                            $scope.chart5.data,
+                                            $scope.chart5.options,
+                                            'Incidents',
+                                            constantsService.CHART_COLORS[0],
+                                            constantsService.CHART_COLORS[1],
+                                            '');
+        };
+
+        /*Filtered by Opener*/
+        $scope.filterProjectsByOpener = function(){
+
+            $scope.chart6 = helperService.getDataChartObject($scope.incidents, 
+                                            'OpenerName', 
+                                            'default', 
+                                            'filterByIncidentOpenerName');
+            
+            $scope.chart6.options = helperService.getOpsChartObject(4, false, 4, 5.5);
+            $scope.chart6.chart = helperService.setChartObject('chart6', 
+                                            'bar', 
+                                            $scope.chart6.labels,
+                                            $scope.chart6.data,
+                                            $scope.chart6.options,
+                                            'Incidents',
+                                            constantsService.CHART_COLORS[0],
+                                            constantsService.CHART_COLORS[1],
+                                            '', false);
+        };
+
+        /*Filtered by Priority*/
+        $scope.filterProjectsByPriority = function(){
+
+            $scope.chart7 = helperService.getDataChartObject($scope.incidents, 
+                                            'PriorityName', 
+                                            'default', 
+                                            'filterByPriorityName');
+            $scope.chart7.options = helperService.getOpsChartObject(5, true, 4, 10);
+            $scope.chart7.chart = helperService.setChartObject('chart7', 
+                                            'pie', 
+                                            $scope.chart7.labels,
+                                            $scope.chart7.data,
+                                            $scope.chart7.options,
                                             'Incidents',
                                             constantsService.CHART_COLORS[0],
                                             constantsService.CHART_COLORS[1],

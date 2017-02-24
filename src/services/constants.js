@@ -23,11 +23,12 @@
 		/*Charts*/
 		CHART_TITLES:['Total Incidents Reported By Year',
 					  'Total Incidents Reported By Release',
-					  'Total Release Incidents Reported By Type',
-					  'Total Release Incidents Reported By Status',
-					  'Total Release Incidents Reported By Opener',
-					  'Total Release Incidents Reported By Priority'],
-		CHART_COLORS:['rgb(146,146,146)', //Default bar color
+					  'Total Incidents Reported By Type',
+					  'Total Incidents Reported By Status',
+					  'Total Incidents Reported By Opener',
+					  'Total Incidents Reported By Priority',
+					  'Total Incidents Reported By Projects',],
+		CHART_COLORS:['rgb(255,255,244)', //Default bar color
 					  'rgb(7,54,66)', //Default bar color
 					  'rgb(244,243,86)', //Closed[2]
 					  'rgb(248,248,248)', //New[3]
