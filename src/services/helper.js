@@ -55,13 +55,11 @@
 		/*Get Chart.js Object*/
 		var setChartObject = function(id, type, labels, data, options, label, bgColor, borderColor, typeChart, animation){
 		    var chart = document.getElementById(id);
-		    var ctx =  chart.getContext('2d');
+		    var canvas = $("<canvas class='chart'></canvas>");
+		    var ctx =  canvas.get(0).getContext('2d');
 		    var	body={};
 		        body.options={};
-
-		    /*clear*/
-		    ctx.clearRect(0, 0, chart.width, chart.height);
-		    ctx.beginPath();
+		    	$(chart).html(canvas);
 
 		    switch(type){
 		    	case 'bar':
@@ -118,7 +116,7 @@
 		    	datasets: [dataset]
 		    };
 
-		    chart = new Chart(chart, body);
+		    chart = new Chart(canvas, body);
 		}
 
 		/*Set labels, data and if is valid chart*/

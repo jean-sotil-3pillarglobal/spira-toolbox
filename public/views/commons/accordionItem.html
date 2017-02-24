@@ -1,0 +1,8 @@
+<div class="list-group-item btn" data-toggle="collapse" data-target="#{{mv.section}}" ng-click="mv.show = !mv.show">
+	<h3 class="text-left"><i class="fa {{mv.icon}}"></i> {{mv.label}} <i aria-hidden="true" ng-class="(!mv.show)?'fa fa-chevron-right':'fa fa-chevron-down'" class="pull-right"></i></h3>
+</div>
+
+<div id="{{mv.section}}" class="collapse">
+	<h3>{{mv.release}}</h3>
+	<div  ng-transclude></div>
+</div>

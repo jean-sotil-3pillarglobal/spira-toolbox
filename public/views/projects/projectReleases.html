@@ -1,10 +1,10 @@
 
 <div>
-	<div class="well" ng-show="showUsers">
+	<div class="well collapse" id="users-container">
 		<span ng-repeat="user in users" class="badge">{{user.FullName}} &#9680;</span> 
 	</div>
 	<div class="list-group pull-right">
-		<a class="list-group-item cols-sm-2" ng-click="showUsers = !showUsers">
+		<a class="list-group-item cols-sm-2" ng-click="showUsers = !showUsers" data-toggle="collapse" data-target="#users-container">
 			<i class="fa fa-user fa-fw" aria-hidden="true"></i>&nbsp; {{!showUsers?"show":"hide"}} users
 		</a>
 	</div>
@@ -45,28 +45,39 @@
 	<div ng-show="filteredByRelease.length == 0">No values to display.</div>
 
 	<!-- Release incidents reported by type -->
-	<div ng-show="filteredByRelease.length > 0">
-		<h3>{{selected.release.Name}} <span class="small">{{selected.release.ReleaseId}}</span></h3>
-		<div class="row">
-		  <div class="col-md-6">
-			  <bars selector="chart3" data="chart3.data" year="selected.release.VersionNumber" display="chart3.display" /></bars>
-		  </div>
-		  <div class="col-md-6">
-		  	<bars selector="chart4" data="chart4.data" year="selected.release.VersionNumber" display="chart4.display" /></bars>
-		  </div>
-		</div>
-		<div class="row">
-		  <div class="col-md-12">
-			<bars selector="chart5" data="chart5.data" year="selected.release.VersionNumber" display="chart5.display" /></bars>
-		  </div>
-		  <div class="col-md-6">
-			
-		  </div>
-		</div>
-		<div class="row">
-		  <div class="col-md-12">
-			<bars selector="chart6" data="chart6.data" year="selected.release.VersionNumber" display="chart6.display" /></bars>
-		  </div>
-		</div>
+	<div ng-show="filteredByRelease.length > 0" class="list-group">
+		
+		<!-- Tasks Section -->
+		<accordion-item release="{{selected.release.Name}} ({{selected.release.ReleaseId}})" section="tasks" label="Tasks" icon="fa-tasks">
+		</accordion-item>
+
+		<!-- Incidents Section -->
+		<accordion-item release="{{selected.release.Name}} ({{selected.release.ReleaseId}})" section="incidents" label="Incidents" icon="fa-gears">
+			<div class="row">
+			  <div class="col-md-6">
+				  <bars selector="chart3" data="chart3.data" year="selected.release.VersionNumber" display="chart3.display" /></bars>
+			  </div>
+			  <div class="col-md-6">
+			  	<bars selector="chart4" data="chart4.data" year="selected.release.VersionNumber" display="chart4.display" /></bars>
+			  </div>
+			</div>
+			<div class="row">
+			  <div class="col-md-12">
+				<bars selector="chart5" data="chart5.data" year="selected.release.VersionNumber" display="chart5.display" /></bars>
+			  </div>
+			  <div class="col-md-6">
+				
+			  </div>
+			</div>
+			<div class="row">
+			  <div class="col-md-12">
+				<bars selector="chart6" data="chart6.data" year="selected.release.VersionNumber" display="chart6.display" /></bars>
+			  </div>
+			</div>
+		</accordion-item>
+
+		<!-- Test Cases Section -->
+		<accordion-item release="{{selected.release.Name}} ({{selected.release.ReleaseId}})" section="testcases" label="Test Cases" icon="fa-flask">
+		</accordion-item>
 	</div>
 </div>
