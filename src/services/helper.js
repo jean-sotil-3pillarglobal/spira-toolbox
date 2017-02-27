@@ -59,7 +59,9 @@
 		    var ctx =  canvas.get(0).getContext('2d');
 		    var	body={};
 		        body.options={};
-		    	$(chart).html(canvas);
+
+	        /*Inject canvas into HTML elem*/
+	    	$(chart).html(canvas);
 
 		    switch(type){
 		    	case 'bar':
@@ -132,7 +134,7 @@
 			}
 		}
 
-		var getOpsChartObject = function(titleIndex, showLegend, fontSize, xAxesFontSize){
+		var getOpsChartObject = function(index, showLegend, fontSize, xAxesFontSize){
 			return {
 				scales: {
 				    xAxes: [{
@@ -145,7 +147,7 @@
                 defaultFontStyle:"italic",
                 title: {
                     display: true,
-                    text: constantsService.CHART_TITLES[titleIndex]
+                    text: constantsService.CHART_TITLES[index]
                 },
                 legend:{display:showLegend}
             };
@@ -191,12 +193,6 @@
 		    		break;
 		    		case '6 - Deferred':
 		    			return constantsService.CHART_COLORS[7];
-		    		break;
-		    		case '7':
-		    			return constantsService.CHART_COLORS[6];
-		    		break;
-		    		case '8':
-		    			return constantsService.CHART_COLORS[6];
 		    		break;
 		    		default:
 		    			return color;
