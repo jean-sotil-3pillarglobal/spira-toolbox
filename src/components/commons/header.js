@@ -1,4 +1,6 @@
 (function(){
+	'use strict';
+	
 	/*<appheader /> component*/
 	app.component("appheader", {
 		templateUrl: "./views/commons/header.html",

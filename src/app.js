@@ -1,14 +1,16 @@
-if (!app) var app = angular.module('myApp', ['ui.router', 
-                                             'ui.mask', 
-                                             'LocalStorageModule',
-                                             'ngResource',
-                                             'ngSanitize',
-                                             'nya.bootstrap.select',
-                                             'moment-picker']);
+var app = angular.module('myApp', ['ui.router', 
+                                     'ui.mask', 
+                                     'LocalStorageModule',
+                                     'ngResource',
+                                     'ngSanitize',
+                                     'nya.bootstrap.select',
+                                     'moment-picker']);
 
 /*ui-router routes*/
-app.config(['$stateProvider','$urlRouterProvider', '$sceDelegateProvider',
-	function ($stateProvider, $urlRouterProvider, $sceDelegateProvider) { 
+app.config(['$stateProvider','$urlRouterProvider',
+	function ($stateProvider, $urlRouterProvider) { 
+        'use strict';
+
         $stateProvider.
             state('auth', {
                 url: '/auth',

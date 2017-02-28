@@ -1,5 +1,9 @@
 (function() {
-    if (!app.controllers) app.controllers = {};
+	'use strict';
+	
+    if (!app.controllers) {
+    	app.controllers = {};
+    }
 
     /*Admin Ctrl*/
     app.controllers.header = function($scope, 

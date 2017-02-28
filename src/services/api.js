@@ -1,5 +1,6 @@
 (function(){
-
+	'use strict';
+	
 	var contants =  {
 		PROJECTS : "https://spira.dxide.com/Services/v4_0/RestService.svc/projects?",
 		PROJECT : "https://spira.dxide.com/Services/v4_0/RestService.svc/projects/{0}?",

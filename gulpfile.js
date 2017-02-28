@@ -1,55 +1,49 @@
 var gulp = require("gulp");
+var plugins = require('gulp-load-plugins')();
 var config = require("./config")(); //import config file.
-var liveServer = require("gulp-live-server");
 var browserSync = require("browser-sync"); //testing porpuses.
-var uglify = require("gulp-uglify");
-var concat = require("gulp-concat");
-var less = require("gulp-less");
-var path = require("path");
-var minifyCSS = require("gulp-minify-css");
-var rename = require("gulp-rename");
-var autoprefixer = require("gulp-autoprefixer");
 
 
+/*bundle js files*/
 gulp.task("bundle", function(){
-	return gulp.src([
-		"./src/*.js", 
-		"./src/controllers/*.js",
-		"./src/controllers/**/*.js", 
-		"./src/filters/*.js", 
-		"./src/services/*.js", 
-		"./src/components/**/*.js"])
-	.pipe(uglify())
-	.pipe(concat("app.js"))
+	return gulp.src(config.devPaths.source)
+	.pipe(plugins.uglify())
+	.pipe(plugins.concat("app.js"))
 	.pipe(gulp.dest("./public/js"));
 });
 
 //less compiler
 gulp.task("less", function(){
 	return gulp.src(config.devPaths.less)
-	.pipe(concat("all.css"))
-	.pipe(less({
+	.pipe(plugins.concat("all.min.css"))
+	.pipe(plugins.less({
 		paths:[
 			"./node_modules/bootstrap-less",
 			"./node_modules/toastr",
 			"./node_modules/nya-bootstrap-select"
 		]
 	}))
-	.pipe(minifyCSS({
+	.pipe(plugins.minifyCss({
 		keepSpecialComments: 0
 	}))
-    .pipe(rename('all.min.css'))
-    .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9'))
+    .pipe(plugins.autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9'))
 	.pipe(gulp.dest(config.publicPaths.css));
 });
 
 //running server task.
 gulp.task("live", function(){
-	var server = liveServer("./server.js");
+	var server = plugins.liveServer("./server.js");
 	server.start();
 });
 
-gulp.task("sync", ["live", "bundle", "less"], function(){
+gulp.task("hint", function(){
+	return gulp
+		.src(config.devPaths.source)
+		.pipe(plugins.jshint(".jshintrc"))
+		.pipe(plugins.jshint.reporter("jshint-stylish"));
+});
+
+gulp.task("sync", ["live", "bundle", "less", "hint"], function(){
 	browserSync.init(null, {
 		proxy:"http://localhost:"+config.port,
 		port:9001
@@ -58,9 +52,11 @@ gulp.task("sync", ["live", "bundle", "less"], function(){
 
 //Watch for changes
 gulp.task("watch", function(){
-	gulp.watch("./src/**/*.js", ['bundle']);
-	gulp.watch(config.devPaths.less, ['less']); 
-	//"Watch" every html file, and if any change, run 'html', 'js' task.
+	gulp.watch(config.devPaths.source, ['bundle', 'hint'])
+		.on('change', function(evt){
+			console.log("*** File " + evt.path + " was " + evt.type + ", running tasks...");
+		});
+	gulp.watch(config.devPaths.less, ['less']);
 });
 
 gulp.task('default', ['sync', "watch"]);

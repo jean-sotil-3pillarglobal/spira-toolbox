@@ -1,4 +1,6 @@
 (function(){
+	'use strict';
+	
 	/*<chartBars /> component*/
 	app.component("bars", {
 		templateUrl : "./views/projects/charts/chartBars.html",
@@ -9,7 +11,6 @@
 			display : '=',
 			year : '=',
 		},
-		controllerAs : "mv",
-		controller: ["$scope", app.controllers.chartBars]
+		controllerAs : "mv"
 	});
 }());

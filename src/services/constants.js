@@ -1,5 +1,6 @@
 (function(){
-
+	'use strict';
+	
 	var contants =  {
 		/*Global Values*/
 		APP_TITLE : "Spira Toolbox",
@@ -21,13 +22,14 @@
 		APP_PROJECT_YEARS : ["2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025", "2025", "2026" ],
 
 		/*Charts*/
-		CHART_TITLES:['Total Incidents Reported By Year',
-					  'Total Incidents Reported By Release',
-					  'Total Incidents Reported By Type',
-					  'Total Incidents Reported By Status',
-					  'Total Incidents Reported By Opener',
-					  'Total Incidents Reported By Priority',
-					  'Total Incidents Reported By Projects',],
+		CHART_TITLES:['Total Incidents Filterd By Year',
+					  'Total Incidents Filterd By Release',
+					  'Total Incidents Filterd By Type',
+					  'Total Incidents Filterd By Status',
+					  'Total Incidents Filterd By Opener',
+					  'Total Incidents Filterd By Priority',
+					  'Total Incidents Filterd By Projects',
+					  'Total Incidents Filterd By Owner',],
 		CHART_COLORS:['rgb(255,255,244)', //Default bar color
 					  'rgb(7,54,66)', //Default bar color
 					  'rgb(244,243,86)', //Closed[2]

@@ -1,4 +1,6 @@
 (function(){
+	'use strict';
+
 	function service(apiService, 
 					 $http, 
 					 $sce, 
@@ -16,7 +18,7 @@
 
 		/*Get token name from LocalStorageService*/
 		var getToken = function(){
-			return localStorageService.get("token")
+			return localStorageService.get("token");
 		};
 
 		/*Get all projects*/
@@ -101,7 +103,7 @@
 			getProjectCustomPropertiesById : getProjectCustomPropertiesById,
 			getProjectIncidentsByCreationDate : getProjectIncidentsByCreationDate
 		};
-	};
+	}
 
 	/*Inject apiService as a dependency! */
 	service.$inject = ['apiService', 

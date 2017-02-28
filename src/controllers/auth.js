@@ -1,5 +1,9 @@
 (function() {
-    if (!app.controllers) app.controllers = {};
+    'use strict';
+
+    if (!app.controllers) {
+        app.controllers = {};
+    }
 
     /*AuthCtrl Function*/
     app.controllers.auth = function($scope, 
@@ -21,7 +25,7 @@
         				$state.transitionTo('app.projects');
         			} 
                 });
-    		}).catch(function(error) {
+    		}).catch(function() {
 		        // Catch and handle exceptions from success/error/finally functions
 		        toastrService.error(constantsService.APP_AUTH_ERROR_TITLE, constantsService.APP_AUTH_ERROR_MESSAGE);
 		    });
@@ -38,4 +42,4 @@
                                 'constantsService',
                                 'localStorageService', 
                                 app.controllers.auth]);
-}())
+}());

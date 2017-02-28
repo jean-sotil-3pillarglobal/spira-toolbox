@@ -4,7 +4,14 @@ module.exports = function(){
 		"devPaths": {
 			"less" : "./src/styles/**/*.less",
 			"js" : "./src/**/*.js",
-			"templates" : "./src/views/"
+			"templates" : "./src/views/",
+			"source" : [
+				"./src/*.js", 
+				"./src/controllers/*.js",
+				"./src/controllers/**/*.js", 
+				"./src/filters/*.js", 
+				"./src/services/*.js", 
+				"./src/components/**/*.js"],
 		},
 		"publicPaths" : {
 			"css" : "./public/styles",

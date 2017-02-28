@@ -1,27 +1,28 @@
 (function(){
+	'use strict';
 
 	function service(localStorageService){
 
 		/*Set Credentials*/
-		var createCredentials = $.proxy(function(username, token){
+		var createCredentials = function(username, token){
 			localStorageService.set("username", username);
 			localStorageService.set("token", token);
-		}, this);
+		};
 
 		/*Check if user has a valid cache session*/
 		var isLoggedAlready = function(){
-			return (getUsername() != undefined)? true:false;
+			return (getUsername() !== undefined)? true:false;
 		};
 
 		/*Get Username*/
-		var getUsername = $.proxy(function(){
+		var getUsername = function(){
 			return localStorageService.get("username");
-		}, this);
+		};
 
 		/*Get Token*/
-		var getToken = $.proxy(function(){
+		var getToken = function(){
 			return localStorageService.get("token");
-		}, this);
+		};
 
 		/*Delete stored data.*/
 		var deleteCredentials = function(){
@@ -36,8 +37,8 @@
 			getToken : getToken,
 			createCredentials : createCredentials,
 			deleteCredentials : deleteCredentials
-		}
-	};
+		};
+	}
 
 	service.$inject = ['localStorageService'];
 

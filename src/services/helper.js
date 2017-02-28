@@ -1,4 +1,6 @@
 (function(){
+	'use strict';
+
 	function service($filter,
 					 constantsService){
 		
@@ -24,31 +26,38 @@
 		/*get labels*/
 		var getLabelsArray = function(array, index, type){
 		    var container = [];
-		    $(array).each(function(i, value){
-		        switch(type){
-		            case 'default':
-		                if(container.indexOf(value[index]) == -1 && value[index]) container.push(value[index]);
-		            break;
-		            case 'year':
-		                var year = moment(value[index]).year();
-		                if(container.indexOf(year) == -1 && year) container.push(year);
-		            break;
-		            case 'month':
-		                var month = constantsService.APP_PROJECT_MONTHS[moment(value[index]).month()]
-		                if(container.indexOf(month) == -1 && month) {
-		                	container.push(month);
-		                }
-		            break;
-		        }
-		    });
+
+		    for (var i = 0; i < array.length; i++) {
+		    	var value = array[i];
+
+		    	switch(type){
+		    	    case 'default':
+		    	        if(container.indexOf(value[index]) == -1 && value[index]) {
+		    	        	container.push(value[index]);
+		    	        }
+		    	    break;
+		    	    case 'year':
+		    	        var year = moment(value[index]).year();
+		    	        if(container.indexOf(year) == -1 && year) {
+		    	        	container.push(year);
+		    	        }
+		    	    break;
+		    	    case 'month':
+		    	        var month = constantsService.APP_PROJECT_MONTHS[moment(value[index]).month()];
+		    	        if(container.indexOf(month) == -1 && month) {
+		    	        	container.push(month);
+		    	        }
+		    	    break;
+		    	}
+		    }
 		    return container;
 		};
 		var validateDataArray = function(array){
 		    var empty = false;
 
-		    if(array.length == 0) return empty;
+		    if(array.length === 0) {return empty;}
 		    array.map(function(item){
-		        if(item != 0) empty = true;
+		        if(item !== 0) {empty = true;}
 		    });
 		    return empty;
 		};
@@ -56,7 +65,7 @@
 		var setChartObject = function(id, type, labels, data, options, label, bgColor, borderColor, typeChart, animation){
 		    var chart = document.getElementById(id);
 		    var canvas = $("<canvas class='chart'></canvas>");
-		    var ctx =  canvas.get(0).getContext('2d');
+		    var dataset = null;
 		    var	body={};
 		        body.options={};
 
@@ -74,7 +83,7 @@
 		            };
 				    /*Chart extra options.*/
 				    body.options = options;
-				    if(animation == undefined || animation == true) {
+				    if(animation === undefined || animation === true) {
 					    body.options.events = false;
 					    body.options.tooltips = {enabled:true};
 					    //body.options.hover = {animationDuration: 0};
@@ -96,7 +105,7 @@
 				    	                });
 				    	            });
 			    	        }
-					    }
+					    };
 				    }
 		    	break;
 		    	case 'pie':
@@ -109,7 +118,7 @@
 		            };
 		            body.options = options;
 		    	break;
-		    };
+		    }
 
 		    /*chart body*/
 		    body.type = type;
@@ -119,7 +128,7 @@
 		    };
 
 		    chart = new Chart(canvas, body);
-		}
+		};
 
 		/*Set labels, data and if is valid chart*/
 		var getDataChartObject = function(incidents, attr, type, filterType){
@@ -131,8 +140,8 @@
 				labels : labels,
 				data : data,
 				display : display
-			}
-		}
+			};
+		};
 
 		var getOpsChartObject = function(index, showLegend, fontSize, xAxesFontSize){
 			return {
@@ -155,49 +164,36 @@
 
 		var getColorsArray = function(color, arr, type){
 		    return (arr.map(function(item){
-		    	if(type == 'border') return color;
+		    	if(type == 'border') {return color;}
 		    	
 		    	switch(item){
 		    		case 'Closed':
 		    			return constantsService.CHART_COLORS[2];
-		    		break;
 		    		case 'New':
 		    			return constantsService.CHART_COLORS[3];
-		    		break;
 		    		case 'Open':
 		    			return constantsService.CHART_COLORS[4];
-		    		break;
 		    		case 'Retest DEV':
 		    			return constantsService.CHART_COLORS[5];
-		    		break;
 		    		case 'Retest QA':
 		    			return constantsService.CHART_COLORS[12];
-		    		break;
 		    		case 'Rejected':
 		    			return constantsService.CHART_COLORS[6];
-		    		break;
 		    		case '1 - High':
 		    			return constantsService.CHART_COLORS[12];
-		    		break;
 		    		case '2 - Major':
 		    			return constantsService.CHART_COLORS[9];
-		    		break;
 		    		case '3 - Medium':
 		    			return constantsService.CHART_COLORS[10];
-		    		break;
 		    		case '4 - Low':
 		    			return constantsService.CHART_COLORS[11];
-		    		break;
 		    		case '5 – Task/Enhancement':
 		    			return constantsService.CHART_COLORS[8];
-		    		break;
 		    		case '6 - Deferred':
 		    			return constantsService.CHART_COLORS[7];
-		    		break;
 		    		default:
 		    			return color;
-
-		    	};
+		    	}
 		    })); 
 		};
 
@@ -205,7 +201,15 @@
 			var filter = [dateFormat(date1, "yyyy-mm-dd")+"|"+dateFormat(date2, "yyyy-mm-dd"), 'filterByDateRanges'];
 			
 			return $filter('filterFindBy')(objs, filter);
-		}
+		};
+
+		var isEqual = function(item, key, value){
+			if(item[key] == value) {
+				return true;
+			}
+
+			return false;
+		};
 
 		return {
 			bindArrayWithQuantity : bindArrayWithQuantity,
@@ -216,9 +220,10 @@
 			getDataChartObject : getDataChartObject,
 			getOpsChartObject : getOpsChartObject,
 			getColorsArray : getColorsArray,
-			getIncidentsByDateRanges : getIncidentsByDateRanges
+			getIncidentsByDateRanges : getIncidentsByDateRanges,
+			isEqual : isEqual
 		};
-	};
+	}
 
 	/*Inject helperService as a dependency! */
 	service.$inject = ['$filter', 

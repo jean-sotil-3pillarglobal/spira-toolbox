@@ -1,5 +1,7 @@
 (function(){
-	/*<chartBars /> component*/
+	'use strict';
+	
+	/*<accordion-item /> component*/
 	app.component("accordionItem", {
 		templateUrl : "./views/commons/accordionItem.html",
 		transclude: true,

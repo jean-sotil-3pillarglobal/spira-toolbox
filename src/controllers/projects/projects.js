@@ -1,5 +1,9 @@
 (function() {
-    if (!app.controllers) app.controllers = {};
+    'use strict';
+
+    if (!app.controllers) {
+        app.controllers = {};
+    }
 
     /*ProjectCtrl Function*/
     app.controllers.projects = function($scope, 
@@ -27,8 +31,9 @@
         $scope.chart2 = {};
         $scope.chart3 = {};
         $scope.chart4 = {};
-        $scope.chart5= {};
-        $scope.chart6= {};
+        $scope.chart5 = {};
+        $scope.chart6 = {};
+        $scope.chart7 = {};
 
         /*Getting global data*/
         dataService.getProjectById($stateParams.id).then(function(response){
@@ -81,7 +86,7 @@
                                             'CreationDate', 
                                             'month', 
                                             'filterByMonth');
-            $scope.chart1.options = helperService.getOpsChartObject(1, false, 10, 10);
+            $scope.chart1.options = helperService.getOpsChartObject(0, false, 10, 10);
             $scope.chart1.chart = helperService.setChartObject('chart1', 
                                             'bar', 
                                             $scope.chart1.labels,
@@ -130,6 +135,7 @@
             $scope.filterReleaseByStatus();
             $scope.filterReleaseByOpenerName();
             $scope.filterReleaseByPriority();
+            $scope.filterReleaseByOwnerName();
         };
 
         /*Filtered Release Incidents by Type Name*/
@@ -139,7 +145,7 @@
                                             'IncidentTypeName', 
                                             'default', 
                                             'filterByIncidentTypeName');
-            $scope.chart3.options = helperService.getOpsChartObject(1, false, 10, 10);
+            $scope.chart3.options = helperService.getOpsChartObject(2, false, 10, 10);
             $scope.chart3.chart = helperService.setChartObject('chart3', 
                                             'bar', 
                                             $scope.chart3.labels,
@@ -158,7 +164,7 @@
                                             'IncidentStatusName', 
                                             'default', 
                                             'filterByIncidentStatusName');
-            $scope.chart4.options = helperService.getOpsChartObject(1, true, 10, 10);
+            $scope.chart4.options = helperService.getOpsChartObject(3, true, 10, 10);
             $scope.chart4.chart = helperService.setChartObject('chart4', 
                                             'pie', 
                                             $scope.chart4.labels,
@@ -176,7 +182,7 @@
                                             'OpenerName', 
                                             'default', 
                                             'filterByIncidentOpenerName');
-            $scope.chart5.options = helperService.getOpsChartObject(1, false, 10, 8);
+            $scope.chart5.options = helperService.getOpsChartObject(4, false, 10, 8);
             $scope.chart5.chart = helperService.setChartObject('chart5', 
                                             'bar', 
                                             $scope.chart5.labels,
@@ -195,12 +201,30 @@
                                             'PriorityName', 
                                             'default', 
                                             'filterByPriorityName');
-            $scope.chart6.options = helperService.getOpsChartObject(1, true, 10, 8);
+            $scope.chart6.options = helperService.getOpsChartObject(5, true, 10, 8);
             $scope.chart6.chart = helperService.setChartObject('chart6', 
                                             'pie', 
                                             $scope.chart6.labels,
                                             $scope.chart6.data,
                                             $scope.chart6.options,
+                                            '',
+                                            constantsService.CHART_COLORS[0],
+                                            constantsService.CHART_COLORS[1],
+                                            'random');
+        };
+        /*Filtered Release Incidents by Owner Name*/
+        $scope.filterReleaseByOwnerName = function(){
+
+            $scope.chart7 = helperService.getDataChartObject($scope.filteredByRelease, 
+                                            'OwnerName', 
+                                            'default', 
+                                            'filterByOwnerName');
+            $scope.chart7.options = helperService.getOpsChartObject(7, false, 10, 8);
+            $scope.chart7.chart = helperService.setChartObject('chart7', 
+                                            'bar', 
+                                            $scope.chart7.labels,
+                                            $scope.chart7.data,
+                                            $scope.chart7.options,
                                             '',
                                             constantsService.CHART_COLORS[0],
                                             constantsService.CHART_COLORS[1],
@@ -215,14 +239,16 @@
                     if(item.ProjectId == project.ProjectId) {
                         $scope.selected.projects.splice($scope.selected.projects.indexOf(item), 1);
                         toastrService.info("Project Unselected", project.Name+" unselected.");
-                    };
+                    }
                 });
                 return;
             } else {
                 /*Check if it's not already and push.*/
                 var flag = false;
                 $scope.selected.projects.map(function(item){
-                    if(item.ProjectId == project.ProjectId) flag = true;
+                    if(item.ProjectId == project.ProjectId) {
+                        flag = true;
+                    }
                 });
 
                 if(!flag) {
@@ -248,7 +274,7 @@
                 $scope.selectAll = false;
                 toastrService.info("None", "no projects are selected.");
             }
-        }
+        };
     };
 
     /*ProjectCtrl Def*/
@@ -261,4 +287,4 @@
                                     'helperService',
                                     'toastrService',
                                     app.controllers.projects]);
-}())
+}());

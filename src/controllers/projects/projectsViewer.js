@@ -1,5 +1,9 @@
 (function() {
-    if (!app.controllers) app.controllers = {};
+    'use strict';
+
+    if (!app.controllers) {
+        app.controllers = {};
+    }
 
     /*ProjectCtrl Function*/
     app.controllers.projectsViewer = function($scope, 
@@ -10,13 +14,12 @@
                                         constantsService,
                                         helperService) {
 
-        $scope.projects = $stateParams.projects;
+        $scope.projects  = $stateParams.projects;
         $scope.incidents = [];
-        $scope.filterBy;
-        $scope.selected = {};
-        $scope.startDate;
-        $scope.endDate;
-        $scope.loading = false;
+        $scope.selected  = {};
+        $scope.startDate = null;
+        $scope.endDate   = null;
+        $scope.loading   = false;
 
         /*Charts*/
         $scope.chart1 = {};
@@ -27,25 +30,10 @@
         $scope.chart6 = {};
         $scope.chart7 = {};
 
-        $scope.$watch('selected.date', function() {
-            $scope.getDates();
-        });
-        $scope.$watch('filterBy', function() {
-            $scope.getDates();
-        });
-
         $scope.runReviewer = function(){
             var checked = 0;
             $scope.incidents = [];
             $scope.loading = true;
-
-            /*clear data*/
-            if($scope.chart1.chart){
-                alert("here");
-                $scope.chart1.chart.update();
-                $scope.chart2.chart.update();
-                $scope.chart3.chart.update();
-            }
 
             $($scope.projects).each(function(){
                 /*get total count of incidents on project*/
@@ -220,50 +208,6 @@
                                             constantsService.CHART_COLORS[1],
                                             '');
         };
-
-
-
-        /*Utils*/
-        $scope.getDates = function(){
-            switch($scope.filterBy){
-                case 'month': //weekly
-                    $scope.getWeekDates();
-                break;
-                case 'year': //monthly
-                    $scope.getMonthDates();
-                break;
-                case 'decade': //yearly
-                    $scope.getYearDates();
-                break;
-            };
-        };
-
-        $scope.getWeekDates = function(){
-            var date = moment($scope.selected.date);
-            while(date.day()) {
-                date.subtract(1, 'days');
-            }
-            $scope.startDate = date.format("YYYY-MM-DD");
-            $scope.endDate = date.add(6, 'days').format("YYYY-MM-DD");
-        }
-
-        $scope.getMonthDates = function(){
-            var date = moment($scope.selected.date);
-            while(date.day()) {
-                date.subtract(1, 'days');
-            }
-            $scope.startDate = date.format("YYYY-MM-DD");
-            $scope.endDate = date.add(1, 'months').format("YYYY-MM-DD");
-        }
-
-        $scope.getYearDates = function(){
-            var date = moment($scope.selected.date);
-            while(date.day()) {
-                date.subtract(1, 'days');
-            }
-            $scope.startDate = date.format("YYYY-MM-DD");
-            $scope.endDate = date.add(1, 'years').format("YYYY-MM-DD");
-        }
     };
 
     /*ProjectViewerCtrl Def*/

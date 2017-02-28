@@ -1,28 +1,28 @@
 (function(){
-	app.filter("filterFindBy", ['constantsService', function(constantsService) {
+  'use strict';
+
+	app.filter("filterFindBy", ['constantsService', 'helperService', function(constantsService, helperService) {
 	  return function(items, values){
 	  	var filtered = [];
 	  	var value = values[0];
 	  	var type = values[1];
+      var getMonthName = function(index){
+        return constantsService.APP_PROJECT_MONTHS[index];
+      };
 
   		for (var i = 0; i < items.length; i++) {
   	      var item = items[i];
   	      switch(type) {
   	      	case 'filterByReleaseId':
-	  	      if (item.DetectedReleaseId == value) {
-	  	        filtered.push(item);
-	  	      } 
+              if(helperService.isEqual(item, 'DetectedReleaseId', value)){
+                filtered.push(item); 
+              }
   	      	break;
   	      	case 'filterByMonth':
-  	      	  Date.prototype.monthNames = constantsService.APP_PROJECT_MONTHS;
-  	      	  Date.prototype.getMonthName = function() {
-  	      	      return this.monthNames[this.getMonth()];
-  	      	  };
-
-  	      	  var monthDate = new Date(moment(item.CreationDate)).getMonthName();
-              if (monthDate == value) {
-  	      	    filtered.push(item);
-  	      	  } 
+              var month = new Date(moment(item.CreationDate)).getMonth();
+              if (getMonthName(month) == value) {
+                filtered.push(item);
+              }
   	      	break;
             case 'filterByYear':
               var yearDate = moment(new Date(moment(item.CreationDate))).year();
@@ -31,72 +31,83 @@
               } 
             break;
             case 'filterByReleaseValue':
-              if (item.ReleaseId == value) {
-                filtered.push(item.Name);
-              } 
+              if(helperService.isEqual(item, 'ReleaseId', value)){
+                filtered.push(item.Name); 
+              }
             break;
             case 'filterActiveRelease':
-              if (item.Active == value) {
-                filtered.push(item);
-              } 
+              if(helperService.isEqual(item, 'Active', value)){
+                filtered.push(item); 
+              }
             break;
             case 'filterReleaseExist':
-              value.map(function(release){
-                 if(item == release.ReleaseId) filtered.push(item);
-              });
+              for (var x = 0; x < value.length; x++) {
+                var obj = value[x];
+                if(helperService.isEqual(obj, 'ReleaseId', item)){
+                  filtered.push(item); 
+                }
+              }
             break;
             case 'filterByReleaseVersionNumber': /*For incidents*/
-              if (item.DetectedReleaseVersionNumber == value) {
-                filtered.push(item);
-              } 
+              if(helperService.isEqual(item, 'DetectedReleaseVersionNumber', value)){
+                filtered.push(item); 
+              }
             break;
             case 'filterByReleaseProjectName': /*For incidents*/
-              if (item.ProjectName == value) {
-                filtered.push(item);
-              } 
+              if(helperService.isEqual(item, 'ProjectName', value)){
+                filtered.push(item); 
+              }
             break;
             case 'filterReleaseVersionNumber': /*For releases*/
-              value.map(function(versionNumber){
-                 if(item.VersionNumber == versionNumber) filtered.push(item);
-              });
+              for (var y = 0; y < value.length; y++) {
+               var num = value[y];
+               if(helperService.isEqual(item, 'VersionNumber', num)){
+                 filtered.push(item); 
+               }
+              }
             break;
             case 'filterReleaseByReleaseId': /*For releases*/
-              if (item.ReleaseId == value) {
-                  filtered = item;
-              } 
+              if(helperService.isEqual(item, 'ReleaseId', value)){
+                filtered.push(item); 
+              }
             break;
             case 'filterByIncidentTypeName': /*For releases*/
-              if (item.IncidentTypeName == value) {
-                  filtered.push(item);
-              } 
+              if(helperService.isEqual(item, 'IncidentTypeName', value)){
+                filtered.push(item); 
+              }
             break;
             case 'filterByIncidentStatusName': /*For releases*/
-              if (item.IncidentStatusName == value) {
-                  filtered.push(item);
-              } 
+              if(helperService.isEqual(item, 'IncidentStatusName', value)){
+                filtered.push(item); 
+              }
             break;
             case 'filterByIncidentOpenerName': /*For releases*/
-              if (item.OpenerName == value) {
-                  filtered.push(item);
+              if(helperService.isEqual(item, 'OpenerName', value)){
+                filtered.push(item); 
               } 
             break;
             case 'filterByPriorityName': /*For releases*/
-              if (item.PriorityName == value) {
-                  filtered.push(item);
-              } 
+              if(helperService.isEqual(item, 'PriorityName', value)){
+                filtered.push(item); 
+              }
             break;
             case 'filterByDateRanges' :
                 var objDate = moment(dateFormat(moment(new Date(moment(item.CreationDate))), "yyyy-mm-dd")),
                     dates = value.split("|"),
-                    startDate = moment(dates[0]), endDate = moment(dates[1]);
+                    endDate = moment(dates[1]);
                 if(objDate.isSameOrBefore(endDate)) {
                   filtered.push(item);
                 }
+            break;
+            case 'filterByOwnerName': /*For releases*/
+              if(helperService.isEqual(item, 'OwnerName', value)){
+                filtered.push(item); 
+              }
             break;
 
   	      }
   	    }
 	  	return filtered;
-	  }
+	  };
 	}]);
 }());

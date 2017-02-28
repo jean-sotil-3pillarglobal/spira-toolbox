@@ -1,5 +1,9 @@
 (function() {
-    if (!app.controllers) app.controllers = {};
+    'use strict';
+
+    if (!app.controllers) {
+        app.controllers = {};
+    }
 
     /*Admin Ctrl*/
     app.controllers.admin = function($scope, 
@@ -44,4 +48,4 @@
     							 "authService", 
                                  "localStorageService",
     							 app.controllers.admin]);
-}())
+}());
