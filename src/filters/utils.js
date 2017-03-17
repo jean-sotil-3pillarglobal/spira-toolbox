@@ -53,6 +53,14 @@
                 filtered.push(item); 
               }
             break;
+            case 'filterByDetectedReleaseId': /*For release*/
+              for (var y = 0; y < value.length; y++) {
+               var num = value[y];
+               if(helperService.isEqual(item, 'ReleaseId', num)){
+                 filtered.push(item); 
+               }
+              }
+            break;
             case 'filterByReleaseProjectName': /*For incidents*/
               if(helperService.isEqual(item, 'ProjectName', value)){
                 filtered.push(item); 
@@ -64,6 +72,11 @@
                if(helperService.isEqual(item, 'VersionNumber', num)){
                  filtered.push(item); 
                }
+              }
+            break;
+            case 'filterReleaseVersionNumber2': /*For releases*/
+              if(helperService.isEqual(item, 'VersionNumber', value)){
+                return item; 
               }
             break;
             case 'filterReleaseByReleaseId': /*For releases*/
@@ -107,7 +120,8 @@
 
   	      }
   	    }
-	  	return filtered;
+
+	     return filtered;
 	  };
 	}]);
 }());

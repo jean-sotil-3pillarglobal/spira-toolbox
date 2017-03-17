@@ -42,9 +42,6 @@
         dataService.getProjectUsersById($stateParams.id).then(function(response){
             $scope.users = response.data;
         });
-        // dataService.getProjectCustomPropertiesById($stateParams.id).then(function(response){
-        //     $scope.customProperties = response.data;
-        // });
         dataService.getProjectIncidentsCountById($stateParams.id).then(function(response){
             /*get total count of incidents by project*/
             dataService.getProjectIncidentsById($stateParams.id, response.data).then(function(response){
@@ -78,11 +75,11 @@
         /*Filtered Project Incidents by Year*/
         $scope.filterProjectIncidentsByYear = function(){
             var filter = [$scope.selected.year, 'filterByYear'];
-            var filteredIncidents = $filter('filterFindBy')($scope.incidents, filter);
+            $scope.filteredByYear = $filter('filterFindBy')($scope.incidents, filter);
 
             
             /*Chart 1 - Reported by Month*/
-            $scope.chart1 = helperService.getDataChartObject(filteredIncidents, 
+            $scope.chart1 = helperService.getDataChartObject($scope.filteredByYear, 
                                             'CreationDate', 
                                             'month', 
                                             'filterByMonth');
@@ -97,18 +94,14 @@
                                             constantsService.CHART_COLORS[1],
                                             '');
             
-            /*Filter releases by year.*/
-            $scope.releasesVersionNumber = helperService.getLabelsArray(filteredIncidents, 'DetectedReleaseVersionNumber', 'default');
-            var filter2 = [$scope.releasesVersionNumber, 'filterReleaseVersionNumber'];
-            $scope.releasesNames = $filter('filterFindBy')($scope.releases, filter2);
+
+            /* List of VersionNumber available per filteredYear Incidents.*/
+            $scope.releasesNames = helperService.getLabelsArray($scope.filteredByYear, 'DetectedReleaseVersionNumber', 'default');
         };
 
         /*Filtered Project Incidents by Year Releases*/
         $scope.filterReleases = function(){
-            var filter  = [$scope.selected.year, 'filterByYear'],
-                filteredIncidents = $filter('filterFindBy')($scope.incidents, filter);
-
-            $scope.chart2 = helperService.getDataChartObject(filteredIncidents, 
+            $scope.chart2 = helperService.getDataChartObject($scope.filteredByYear, 
                                             'DetectedReleaseVersionNumber', 
                                             'default', 
                                             'filterByReleaseVersionNumber');
@@ -125,10 +118,10 @@
         };
 
         /*Filtered Project Incidents by Specific Release*/
-        $scope.filterReleaseByReleaseVersion = function(release){
+        $scope.filterReleaseByReleaseVersion = function(versionNumber){
             
-            var filter = [release.VersionNumber, 'filterByReleaseVersionNumber'];
-            $scope.filteredByRelease = $filter('filterFindBy')($scope.incidents, filter);
+            var filter = [versionNumber, 'filterByReleaseVersionNumber'];
+            $scope.filteredByRelease = $filter('filterFindBy')($scope.filteredByYear, filter);
             
             /*Init Release charts*/
             $scope.filterReleaseByTypeName();
