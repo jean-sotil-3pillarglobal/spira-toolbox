@@ -63,10 +63,16 @@
 			return getData(url.replace('{0}', id));
 		};
 
-		/*Get project incidents total count by id*/
+		/*Get project custom properties*/
 		var getProjectCustomPropertiesById = function(id){
 			var url = makeURL(apiService.PROJECT_CUSTOM_TYPES, getUsername(), getToken());
 			return getData(url.replace('{0}', id));
+		};
+
+		/*Get project custom properties values*/
+		var getProjectCustomPropertiesByValues = function(id, listId){
+			var url = makeURL(apiService.PROJECT_CUSTOM_TYPES_VALUES, getUsername(), getToken());
+			return getData(url.replace('{0}', id).replace('{1}', listId));
 		};
 
 		/*Get project incidents by CreationDate*/
@@ -101,6 +107,7 @@
 			getProjectIncidentsTypeById : getProjectIncidentsTypeById,
 			getProjectIncidentsCountById : getProjectIncidentsCountById,
 			getProjectCustomPropertiesById : getProjectCustomPropertiesById,
+			getProjectCustomPropertiesByValues : getProjectCustomPropertiesByValues,
 			getProjectIncidentsByCreationDate : getProjectIncidentsByCreationDate
 		};
 	}

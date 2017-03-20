@@ -22,28 +22,30 @@
 		APP_PROJECT_YEARS : ["2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025", "2025", "2026" ],
 
 		/*Charts*/
-		CHART_TITLES:['Total Incidents Filterd By Year',
-					  'Total Incidents Filterd By Release',
-					  'Total Incidents Filterd By Type',
-					  'Total Incidents Filterd By Status',
-					  'Total Incidents Filterd By Opener',
-					  'Total Incidents Filterd By Priority',
-					  'Total Incidents Filterd By Projects',
-					  'Total Incidents Filterd By Owner',],
-		CHART_COLORS:['rgb(255,255,244)', //Default bar color
-					  'rgb(7,54,66)', //Default bar color
-					  'rgb(244,243,86)', //Closed[2]
-					  'rgb(248,248,248)', //New[3]
-					  'rgb(252,248,227)', //Open[4]
-					  'rgb(245,216,87)', //Retest Dev[5]
-					  'rgb(242,158,86)', //Rejected[6]
-					  'rgb(102,255,255)', //Deferred[7]
-					  'rgb(255,255,204)', //Task/Enhancement[8]
-					  'rgb(242,158,86)', //Major[8]
-					  'rgb(245,216,87)', //Medium[9]
-					  'rgb(244,243,86)', //Low[10]
-					  'rgb(244,116,87)', //High[11]
-					  'rgb(228,255,0)', //Retest QA[12]
+		CHART_TITLES:['Total Incidents Filtered By Year', 		//0
+					  'Total Incidents Filtered By Release', 	//1
+					  'Total Incidents Filtered By Type', 		//2
+					  'Total Incidents Filtered By Status', 	//3
+					  'Total Incidents Filtered By Opener', 	//4
+					  'Total Incidents Filtered By Priority', 	//5
+					  'Total Incidents Filtered By Projects', 	//6
+					  'Total Incidents Filtered By Owner', 		//7
+					  'Total Incidents Filtered By DEV Owner', 	//8
+					  ],
+		CHART_COLORS:['rgb(255,255,244)', 		//Default bar color
+					  'rgb(7,54,66)', 			//Default bar color
+					  'rgb(244,243,86)', 		//Closed[2]
+					  'rgb(248,248,248)', 		//New[3]
+					  'rgb(252,248,227)', 		//Open[4]
+					  'rgb(245,216,87)', 		//Retest Dev[5]
+					  'rgb(242,158,86)', 		//Rejected[6]
+					  'rgb(102,255,255)', 		//Deferred[7]
+					  'rgb(255,255,204)', 		//Task/Enhancement[8]
+					  'rgb(242,158,86)', 		//Major[8]
+					  'rgb(245,216,87)', 		//Medium[9]
+					  'rgb(244,243,86)', 		//Low[10]
+					  'rgb(244,116,87)', 		//High[11]
+					  'rgb(228,255,0)', 		//Retest QA[12]
 					  ]
 	};
 

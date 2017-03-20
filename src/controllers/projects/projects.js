@@ -22,9 +22,10 @@
         $scope.users = [];
         $scope.project = [];
         $scope.incidents = [];
-        $scope.customProperties = [];
+        $scope.properties = [];
         $scope.filteredByRelease = [];
         $scope.years = [];
+        $scope.id = parseInt($stateParams.id);
 
         /*Charts*/
         $scope.chart1 = {};
@@ -34,32 +35,48 @@
         $scope.chart5 = {};
         $scope.chart6 = {};
         $scope.chart7 = {};
+        $scope.chart8 = {};
 
         /*Getting global data*/
-        dataService.getProjectById($stateParams.id).then(function(response){
-            $scope.project = response.data;
-        });
-        dataService.getProjectUsersById($stateParams.id).then(function(response){
-            $scope.users = response.data;
-        });
-        dataService.getProjectIncidentsCountById($stateParams.id).then(function(response){
-            /*get total count of incidents by project*/
-            dataService.getProjectIncidentsById($stateParams.id, response.data).then(function(response){
-                $scope.incidents = response.data;
-                
-                /*Get available years in release.*/
-                $scope.years = helperService.getLabelsArray($scope.incidents, 'CreationDate', 'year');
-
-                var prevYear = new Date();
-                $scope.selected.year = moment(prevYear.setFullYear(prevYear.getFullYear() - 1)).year();
-                
-                /*Trigger build*/
-                $timeout($scope.build());
+        if(!isNaN($scope.id)){
+            dataService.getProjectById($scope.id).then(function(response){
+                $scope.project = response.data;
             });
-        });
-        dataService.getProjectReleasesById($stateParams.id).then(function(response){
-            $scope.releases = response.data;
-        });
+            dataService.getProjectUsersById($scope.id).then(function(response){
+                $scope.users = response.data;
+            });
+            dataService.getProjectIncidentsCountById($scope.id).then(function(response){
+                
+                /*Custom Properties*/
+                // dataService.getProjectCustomPropertiesById($scope.id).then(function(response){
+                //     $.each(response.data, function(i, value){
+                //         var property = value;
+                        
+                //         /*Values per Custom Properties*/
+                //         dataService.getProjectCustomPropertiesByValues($scope.id, parseInt(property.CustomPropertyListId)).then(function(response){
+                //             $scope.properties.push(response.data);
+                //         });
+                //     });
+                // });
+                
+                /*get total count of incidents by project*/
+                dataService.getProjectIncidentsById($scope.id, response.data).then(function(response){
+                    $scope.incidents = response.data;
+                    
+                    /*Get available years in release.*/
+                    $scope.years = helperService.getLabelsArray($scope.incidents, 'CreationDate', 'year');
+
+                    var prevYear = new Date();
+                    $scope.selected.year = moment(prevYear.setFullYear(prevYear.getFullYear() - 1)).year();
+                    
+                    /*Trigger build*/
+                    $timeout($scope.build());
+                });
+            });
+            dataService.getProjectReleasesById($scope.id).then(function(response){
+                $scope.releases = response.data;
+            });
+        }
 
         /*Update charts*/
         $scope.build = function(){
@@ -74,6 +91,7 @@
 
         /*Filtered Project Incidents by Year*/
         $scope.filterProjectIncidentsByYear = function(){
+            
             var filter = [$scope.selected.year, 'filterByYear'];
             $scope.filteredByYear = $filter('filterFindBy')($scope.incidents, filter);
 
@@ -101,6 +119,7 @@
 
         /*Filtered Project Incidents by Year Releases*/
         $scope.filterReleases = function(){
+            
             $scope.chart2 = helperService.getDataChartObject($scope.filteredByYear, 
                                             'DetectedReleaseVersionNumber', 
                                             'default', 
@@ -129,6 +148,9 @@
             $scope.filterReleaseByOpenerName();
             $scope.filterReleaseByPriority();
             $scope.filterReleaseByOwnerName();
+
+            /*Custom Properties*/
+            $scope.filterReleaseByDevOwener();
         };
 
         /*Filtered Release Incidents by Type Name*/
@@ -224,7 +246,28 @@
                                             'random');
         };
 
+        $scope.filterReleaseByDevOwener = function(){
+
+            $scope.chart8 = helperService.getDataChartObject($scope.filteredByRelease, 
+                                            'CustomProperties', 
+                                            'propsDevOwner', 
+                                            'filterByPropsDevOwner',
+                                            $scope.users); //Optional Array to retrieve userFullName value.
+            $scope.chart8.options = helperService.getOpsChartObject(8, false, 10, 8);
+            $scope.chart8.chart = helperService.setChartObject('chart8', 
+                                            'bar', 
+                                            $scope.chart8.labels,
+                                            $scope.chart8.data,
+                                            $scope.chart8.options,
+                                            '',
+                                            constantsService.CHART_COLORS[0],
+                                            constantsService.CHART_COLORS[1],
+                                            'random');
+        };
+
+        /*Select/Unselect handler*/
         $scope.chooseProject = function(project){
+            
             project.Checked = !project.Checked;
             if(!project.Checked) {
                 /*Delete from array*/
@@ -250,7 +293,9 @@
                 }
             }
         };
+        /*Select/Unselect All*/
         $scope.toggleAllSelect = function(){
+            
             if(!$scope.selectAll){
                 $scope.selected.projects = [];
                 $scope.projects.map(function(project){

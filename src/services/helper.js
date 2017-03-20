@@ -23,31 +23,48 @@
 		    });
 		    return container;
 		};
-		/*get labels*/
+		/*Get Labels*/
 		var getLabelsArray = function(array, index, type){
 		    var container = [];
 
 		    for (var i = 0; i < array.length; i++) {
 		    	var value = array[i];
 
-		    	switch(type){
-		    	    case 'default':
-		    	        if(container.indexOf(value[index]) == -1 && value[index]) {
-		    	        	container.push(value[index]);
-		    	        }
-		    	    break;
-		    	    case 'year':
-		    	        var year = moment(value[index]).year();
-		    	        if(container.indexOf(year) == -1 && year) {
-		    	        	container.push(year);
-		    	        }
-		    	    break;
-		    	    case 'month':
-		    	        var month = constantsService.APP_PROJECT_MONTHS[moment(value[index]).month()];
-		    	        if(container.indexOf(month) == -1 && month) {
-		    	        	container.push(month);
-		    	        }
-		    	    break;
+		    	if(type.indexOf('props') > -1){
+		    		/*Custom Properties Handler*/
+		    		var props = value[index];
+
+		    		$.each(props, function(i, prop){
+
+		    			/*DEV Owner*/
+			    		if(type.indexOf("DevOwner") > -1 && prop.Definition.Name == "DEV Owner") {
+		    			    
+		    			    if(container.indexOf(prop.IntegerValue) == -1 && prop.IntegerValue) {
+		    			    	container.push(prop.IntegerValue);
+		    			    }
+			    		}
+		    		});
+		    		
+		    	} else {
+			    	switch(type){
+			    	    case 'default':
+			    	        if(container.indexOf(value[index]) == -1 && value[index]) {
+			    	        	container.push(value[index]);
+			    	        }
+			    	    break;
+			    	    case 'year':
+			    	        var year = moment(value[index]).year();
+			    	        if(container.indexOf(year) == -1 && year) {
+			    	        	container.push(year);
+			    	        }
+			    	    break;
+			    	    case 'month':
+			    	        var month = constantsService.APP_PROJECT_MONTHS[moment(value[index]).month()];
+			    	        if(container.indexOf(month) == -1 && month) {
+			    	        	container.push(month);
+			    	        }
+			    	    break;
+			    	}
 		    	}
 		    }
 		    return container;
@@ -131,11 +148,19 @@
 		};
 
 		/*Set labels, data and if is valid chart*/
-		var getDataChartObject = function(incidents, attr, type, filterType){
+		var getDataChartObject = function(incidents, attr, type, filterType, arrProps){
 			var labels  =  getLabelsArray(incidents, attr, type),
 				data    =  bindArrayWithQuantity(labels, incidents, filterType),
 				display =  validateDataArray(data);
 
+			if(type.indexOf("props") > -1) {
+
+				if(type.indexOf("DevOwner") > -1) {
+					labels = bindArrayWithValue(labels, arrProps, 'filterByUserId');
+					console.log(labels);
+				}
+			}
+			
 			return {
 				labels : labels,
 				data : data,
