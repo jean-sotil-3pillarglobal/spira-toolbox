@@ -19,6 +19,9 @@
                 if(type.indexOf("DevOwner") > -1 && prop.Definition.Name == "DEV Owner"){
                   if(prop.IntegerValue == value) {filtered.push(item); }
                 }
+                if(type.indexOf("Channel") > -1 && prop.Definition.Name == "Channel"){
+                  if(prop.IntegerValue == value) {filtered.push(item); }
+                }
               });
           } else {
     	      switch(type) {
@@ -121,7 +124,7 @@
                     filtered.push(item);
                   }
               break;
-              case 'filterByOwnerName': /*For releases*/
+              case 'filterByOwnerName': /*For incidents*/
                 if(helperService.isEqual(item, 'OwnerName', value)){
                   filtered.push(item); 
                 }
@@ -129,6 +132,11 @@
               case 'filterByUserId': /*For incident*/
                 if(helperService.isEqual(item, 'UserId', value)){
                   return item.FullName;
+                }
+              break;
+              case 'filterByChannel': /*For incident*/
+                if(helperService.isEqual(item, 'CustomPropertyValueId', value)){
+                  return item.Name;
                 }
               break;
     	      }

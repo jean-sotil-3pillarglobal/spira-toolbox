@@ -48,16 +48,16 @@
             dataService.getProjectIncidentsCountById($scope.id).then(function(response){
                 
                 /*Custom Properties*/
-                // dataService.getProjectCustomPropertiesById($scope.id).then(function(response){
-                //     $.each(response.data, function(i, value){
-                //         var property = value;
+                dataService.getProjectCustomPropertiesById($scope.id).then(function(response){
+                    $.each(response.data, function(i, value){
+                        var property = value;
                         
-                //         /*Values per Custom Properties*/
-                //         dataService.getProjectCustomPropertiesByValues($scope.id, parseInt(property.CustomPropertyListId)).then(function(response){
-                //             $scope.properties.push(response.data);
-                //         });
-                //     });
-                // });
+                        /*Values per Custom Properties*/
+                        dataService.getProjectCustomPropertiesByValues($scope.id, parseInt(property.CustomPropertyListId)).then(function(response){
+                            $scope.properties.push(response.data);
+                        });
+                    });
+                });
                 
                 /*get total count of incidents by project*/
                 dataService.getProjectIncidentsById($scope.id, response.data).then(function(response){
@@ -151,6 +151,7 @@
 
             /*Custom Properties*/
             $scope.filterReleaseByDevOwener();
+            $scope.filterReleaseByChannel();
         };
 
         /*Filtered Release Incidents by Type Name*/
@@ -245,7 +246,7 @@
                                             constantsService.CHART_COLORS[1],
                                             'random');
         };
-
+        /*Filtered Release Incidents by DEV Owener*/
         $scope.filterReleaseByDevOwener = function(){
 
             $scope.chart8 = helperService.getDataChartObject($scope.filteredByRelease, 
@@ -259,6 +260,25 @@
                                             $scope.chart8.labels,
                                             $scope.chart8.data,
                                             $scope.chart8.options,
+                                            '',
+                                            constantsService.CHART_COLORS[0],
+                                            constantsService.CHART_COLORS[1],
+                                            'random');
+        };
+        /*Filtered Release Incidents by Channel/Devices*/
+        $scope.filterReleaseByChannel = function(){
+            
+            $scope.chart9 = helperService.getDataChartObject($scope.filteredByRelease, 
+                                            'CustomProperties', 
+                                            'propsChannel', 
+                                            'filterByPropsChannel',
+                                            $scope.properties); //Optional Array to retrieve userFullName value.
+            $scope.chart9.options = helperService.getOpsChartObject(9, true, 10, 8);
+            $scope.chart9.chart = helperService.setChartObject('chart9', 
+                                            'pie', 
+                                            $scope.chart9.labels,
+                                            $scope.chart9.data,
+                                            $scope.chart9.options,
                                             '',
                                             constantsService.CHART_COLORS[0],
                                             constantsService.CHART_COLORS[1],

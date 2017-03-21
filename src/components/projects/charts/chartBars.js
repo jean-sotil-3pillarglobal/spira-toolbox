@@ -11,6 +11,17 @@
 			display : '=',
 			year : '=',
 		},
-		controllerAs : "mv"
+		controllerAs : "mv",
+		controller : function(){
+			var mv = this;
+
+			mv.download = function($event){
+				var $link = $($event.currentTarget), 
+					$canvas = $link.parent().find("canvas")[0];
+
+				$link.prop("href", $canvas.toDataURL());
+				$link.prop("download", "chart-" + randomID(10,"aA") + ".png");
+			};
+		}
 	});
 }());

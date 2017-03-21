@@ -43,6 +43,14 @@
 		    			    	container.push(prop.IntegerValue);
 		    			    }
 			    		}
+
+		    			/*Channel*/
+			    		if(type.indexOf("Channel") > -1 && prop.Definition.Name == "Channel") {
+		    			    
+		    			    if(container.indexOf(prop.IntegerValue) == -1 && prop.IntegerValue) {
+		    			    	container.push(prop.IntegerValue);
+		    			    }
+			    		}
 		    		});
 		    		
 		    	} else {
@@ -155,10 +163,17 @@
 
 			if(type.indexOf("props") > -1) {
 
+				var filter = "";
+
 				if(type.indexOf("DevOwner") > -1) {
-					labels = bindArrayWithValue(labels, arrProps, 'filterByUserId');
-					console.log(labels);
+					filter = "filterByUserId";
 				}
+				if(type.indexOf("Channel") > -1) {
+					filter = "filterByChannel";
+					arrProps = getPropertyArray("Channel", arrProps);
+				}
+
+				labels = bindArrayWithValue(labels, arrProps, filter);
 			}
 			
 			return {
@@ -166,6 +181,16 @@
 				data : data,
 				display : display
 			};
+		};
+
+		var getPropertyArray = function(index, array){
+			for (var i = 0; i < array.length; i++) {
+				var custom = array[i];
+
+				if(custom.Name == index) {
+					return custom.Values;
+				}
+			}
 		};
 
 		var getOpsChartObject = function(index, showLegend, fontSize, xAxesFontSize){
@@ -216,6 +241,22 @@
 		    			return constantsService.CHART_COLORS[8];
 		    		case '6 - Deferred':
 		    			return constantsService.CHART_COLORS[7];
+
+		    		/*Channel*/
+		    		case 'All':
+		    			return constantsService.CHART_COLORS[13];
+		    		case 'Desktop':
+		    			return constantsService.CHART_COLORS[14];
+		    		case 'Desktop/Mobile':
+		    			return constantsService.CHART_COLORS[15];
+		    		case 'Desktop/Tablet':
+		    			return constantsService.CHART_COLORS[16];
+		    		case 'Mobile':
+		    			return constantsService.CHART_COLORS[17];
+		    		case 'Tablet':
+		    			return constantsService.CHART_COLORS[18];
+		    		case 'Tablet/Mobile':
+		    			return constantsService.CHART_COLORS[19];
 		    		default:
 		    			return color;
 		    	}
