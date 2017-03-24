@@ -22,8 +22,12 @@
         $scope.users = [];
         $scope.project = [];
         $scope.incidents = [];
+        $scope.tasks = [];
+        $scope.tasksByDate = [];
+        $scope.startDate = null;
         $scope.properties = [];
         $scope.filteredByRelease = [];
+        $scope.releaseTask = [];
         $scope.years = [];
         $scope.id = parseInt($stateParams.id);
 
@@ -39,6 +43,7 @@
 
         /*Getting global data*/
         if(!isNaN($scope.id)){
+            
             dataService.getProjectById($scope.id).then(function(response){
                 $scope.project = response.data;
             });
@@ -76,7 +81,20 @@
             dataService.getProjectReleasesById($scope.id).then(function(response){
                 $scope.releases = response.data;
             });
-        }
+            /*get count of task in current project*/
+            dataService.getProjectTasks($scope.id).then(function(response){
+                $scope.tasks = response.data;
+                $scope.startDate = dateFormat(moment($scope.project.CreationDate), "yyyy-mm-dd")+"T00:00:00.000";
+                /*get all tasks in current project*/
+                dataService.getProjectTasksByCreationDate($scope.id, $scope.tasks, $scope.startDate).then(function(response){
+                    $scope.tasksByDate.push(response.data);
+                    
+                    console.log($scope.tasksByDate);
+                });
+            });
+        };
+
+        
 
         /*Update charts*/
         $scope.build = function(){

@@ -81,6 +81,18 @@
 			return getData(url.replace('{0}', id).replace('{1}', count).replace('{2}', creationDate));
 		};
 
+		/*Get project tasks*/
+		var getProjectTasks = function(id){
+			var url = makeURL(apiService.PROJECT_TASKS, getUsername(), getToken());
+			return getData(url.replace('{0}', id));
+		};
+
+		/*Get project tasks by CreationDate*/
+		var getProjectTasksByCreationDate = function(id, count, creationDate){
+			var url = makeURL(apiService.PROJECT_TASKS_DATE, getUsername(), getToken());
+			return getData(url.replace('{0}', id).replace('{1}', count).replace('{2}', creationDate));
+		};
+
 		/*Utils*/
 		//
 		/*Get data from URL*/
@@ -108,7 +120,9 @@
 			getProjectIncidentsCountById : getProjectIncidentsCountById,
 			getProjectCustomPropertiesById : getProjectCustomPropertiesById,
 			getProjectCustomPropertiesByValues : getProjectCustomPropertiesByValues,
-			getProjectIncidentsByCreationDate : getProjectIncidentsByCreationDate
+			getProjectIncidentsByCreationDate : getProjectIncidentsByCreationDate,
+			getProjectTasks : getProjectTasks,
+			getProjectTasksByCreationDate : getProjectTasksByCreationDate
 		};
 	}
 
