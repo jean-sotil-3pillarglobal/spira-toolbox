@@ -139,6 +139,11 @@
                   return item.Name;
                 }
               break;
+              case 'filterTasksReleaseVersionNumber': /*For tasks*/
+                if(helperService.isEqual(item, 'ReleaseVersionNumber', value)){
+                  filtered.push(item); 
+                }
+              break;
     	      }
           }
   	    }

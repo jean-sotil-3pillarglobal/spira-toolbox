@@ -23,7 +23,7 @@
         $scope.project = [];
         $scope.incidents = [];
         $scope.tasks = [];
-        $scope.tasksByDate = [];
+        $scope.tasksByDate = null;
         $scope.startDate = null;
         $scope.properties = [];
         $scope.filteredByRelease = [];
@@ -85,7 +85,7 @@
                 $scope.startDate = dateFormat(moment($scope.project.CreationDate), "yyyy-mm-dd")+"T00:00:00.000";
                 /*get all tasks in current project*/
                 dataService.getProjectTasksByCreationDate($scope.id, $scope.tasks, $scope.startDate).then(function(response){
-                    $scope.tasksByDate.push(response.data);
+                    $scope.tasksByDate = response.data;
                 });
             });
         }
@@ -159,8 +159,14 @@
         /*Filtered Project Incidents by Specific Release*/
         $scope.filterReleaseByReleaseVersion = function(versionNumber){
             
-            var filter = [versionNumber, 'filterByReleaseVersionNumber'];
-            $scope.filteredByRelease = $filter('filterFindBy')($scope.incidents, filter);
+            var filterIncidents = [versionNumber, 'filterByReleaseVersionNumber'],
+                filterTask = [versionNumber, 'filterTasksReleaseVersionNumber'];
+
+            $scope.filteredByRelease = $filter('filterFindBy')($scope.incidents, filterIncidents);
+            $scope.filteredByReleaseTask = $filter('filterFindBy')($scope.tasksByDate, filterTask);
+            
+
+            console.log(helperService.getLabelsArray($scope.filteredByReleaseTask, 'OwnerName', 'default'));
             
             /*Init Release charts*/
             $scope.filterReleaseByTypeName();
