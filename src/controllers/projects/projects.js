@@ -87,6 +87,8 @@
                 /*get all tasks in current project*/
                 dataService.getProjectTasksByCreationDate($scope.id, $scope.tasks, $scope.startDate).then(function(response){
                     $scope.tasksByDate.push(response.data);
+                    $scope.tasksByRelease = helperService.getLabelsArray($scope.tasksByDate[0], 'ReleaseVersionNumber', 'default');
+                    console.log($scope.tasksByRelease);
                 });
             });
         };
