@@ -32,8 +32,6 @@
         $scope.id = parseInt($stateParams.id);
 
         /*Charts*/
-        $scope.chart1 = {};
-        $scope.chart2 = {};
         $scope.chart3 = {};
         $scope.chart4 = {};
         $scope.chart5 = {};
@@ -88,11 +86,9 @@
                 /*get all tasks in current project*/
                 dataService.getProjectTasksByCreationDate($scope.id, $scope.tasks, $scope.startDate).then(function(response){
                     $scope.tasksByDate.push(response.data);
-                    
-                    console.log($scope.tasksByDate);
                 });
             });
-        };
+        }
 
         
 
@@ -113,52 +109,58 @@
             var filter = [$scope.selected.year, 'filterByYear'];
             $scope.filteredByYear = $filter('filterFindBy')($scope.incidents, filter);
 
-            
-            /*Chart 1 - Reported by Month*/
-            $scope.chart1 = helperService.getDataChartObject($scope.filteredByYear, 
-                                            'CreationDate', 
-                                            'month', 
-                                            'filterByMonth');
-            $scope.chart1.options = helperService.getOpsChartObject(0, false, 10, 10);
-            $scope.chart1.chart = helperService.setChartObject('chart1', 
-                                            'bar', 
-                                            $scope.chart1.labels,
-                                            $scope.chart1.data,
-                                            $scope.chart1.options,
-                                            'Incidents',
-                                            constantsService.CHART_COLORS[0],
-                                            constantsService.CHART_COLORS[1],
-                                            '');
-            
+            var obj = {
+                name : 'chart1',
+                description: 'incidents',
+                attr : 'CreationDate',
+                type : 'month',
+                filter : 'filterByMonth',
+                title : 0,
+                label : false,
+                fontSize : 10,
+                xAxesFontsize : 10,
+                chartType : 'bar',
+                defaultColor1 : 0,
+                defaultColor2 : 1,
+                anim : ''
+            };
 
+            /*Chart 1*/
+            $scope[obj.name] = helperService.createChart($scope.filteredByYear, obj);
+            
             /* List of VersionNumber available per filteredYear Incidents.*/
             $scope.releasesNames = helperService.getLabelsArray($scope.filteredByYear, 'DetectedReleaseVersionNumber', 'default');
         };
 
         /*Filtered Project Incidents by Year Releases*/
         $scope.filterReleases = function(){
+
+            var obj = {
+                name : 'chart2',
+                description: '',
+                attr : 'DetectedReleaseVersionNumber',
+                type : 'default',
+                filter : 'filterByReleaseVersionNumber',
+                title : 1,
+                label : false,
+                fontSize : 10,
+                xAxesFontsize : 10,
+                chartType : 'bar',
+                defaultColor1 : 0,
+                defaultColor2 : 1,
+                anim : ''
+            };
+
+            /*Chart 2*/
+            $scope[obj.name] = helperService.createChart($scope.filteredByYear, obj);
             
-            $scope.chart2 = helperService.getDataChartObject($scope.filteredByYear, 
-                                            'DetectedReleaseVersionNumber', 
-                                            'default', 
-                                            'filterByReleaseVersionNumber');
-            $scope.chart2.options = helperService.getOpsChartObject(1, false, 10, 10);
-            $scope.chart2.chart = helperService.setChartObject('chart2', 
-                                            'bar', 
-                                            $scope.chart2.labels,
-                                            $scope.chart2.data,
-                                            $scope.chart2.options,
-                                            '',
-                                            constantsService.CHART_COLORS[0],
-                                            constantsService.CHART_COLORS[1],
-                                            '');
         };
 
         /*Filtered Project Incidents by Specific Release*/
         $scope.filterReleaseByReleaseVersion = function(versionNumber){
             
             var filter = [versionNumber, 'filterByReleaseVersionNumber'];
-            $scope.filteredByRelease = $filter('filterFindBy')($scope.filteredByYear, filter);
+            $scope.filteredByRelease = $filter('filterFindBy')($scope.incidents, filter);
             
             /*Init Release charts*/
             $scope.filterReleaseByTypeName();
@@ -175,132 +177,169 @@
         /*Filtered Release Incidents by Type Name*/
         $scope.filterReleaseByTypeName = function(){
 
-            $scope.chart3 = helperService.getDataChartObject($scope.filteredByRelease, 
-                                            'IncidentTypeName', 
-                                            'default', 
-                                            'filterByIncidentTypeName');
-            $scope.chart3.options = helperService.getOpsChartObject(2, false, 10, 10);
-            $scope.chart3.chart = helperService.setChartObject('chart3', 
-                                            'bar', 
-                                            $scope.chart3.labels,
-                                            $scope.chart3.data,
-                                            $scope.chart3.options,
-                                            '',
-                                            constantsService.CHART_COLORS[0],
-                                            constantsService.CHART_COLORS[1],
-                                            '');
+            var obj = {
+                name : 'chart3',
+                description: '',
+                attr : 'IncidentTypeName',
+                type : 'default',
+                filter : 'filterByIncidentTypeName',
+                title : 2,
+                label : false,
+                fontSize : 10,
+                xAxesFontsize : 10,
+                chartType : 'bar',
+                defaultColor1 : 0,
+                defaultColor2 : 1,
+                anim : ''
+            };
+
+            /*Chart 3*/
+            $scope[obj.name] = helperService.createChart($scope.filteredByRelease, obj);
+
         };
 
         /*Filtered Release Incidents by Status*/
         $scope.filterReleaseByStatus = function(){
 
-            $scope.chart4 = helperService.getDataChartObject($scope.filteredByRelease, 
-                                            'IncidentStatusName', 
-                                            'default', 
-                                            'filterByIncidentStatusName');
-            $scope.chart4.options = helperService.getOpsChartObject(3, true, 10, 10);
-            $scope.chart4.chart = helperService.setChartObject('chart4', 
-                                            'pie', 
-                                            $scope.chart4.labels,
-                                            $scope.chart4.data,
-                                            $scope.chart4.options,
-                                            '',
-                                            constantsService.CHART_COLORS[0],
-                                            constantsService.CHART_COLORS[1],
-                                            '');
+            var obj = {
+                name : 'chart4',
+                description: '',
+                attr : 'IncidentStatusName',
+                type : 'default',
+                filter : 'filterByIncidentStatusName',
+                title : 3,
+                label : true,
+                fontSize : 10,
+                xAxesFontsize : 10,
+                chartType : 'pie',
+                defaultColor1 : 0,
+                defaultColor2 : 1,
+                anim : ''
+            };
+
+            /*Chart 4*/
+            $scope[obj.name] = helperService.createChart($scope.filteredByRelease, obj);
+
         };
+
         /*Filtered Release Incidents by Opener*/
         $scope.filterReleaseByOpenerName = function(){
 
-            $scope.chart5 = helperService.getDataChartObject($scope.filteredByRelease, 
-                                            'OpenerName', 
-                                            'default', 
-                                            'filterByIncidentOpenerName');
-            $scope.chart5.options = helperService.getOpsChartObject(4, false, 10, 8);
-            $scope.chart5.chart = helperService.setChartObject('chart5', 
-                                            'bar', 
-                                            $scope.chart5.labels,
-                                            $scope.chart5.data,
-                                            $scope.chart5.options,
-                                            '',
-                                            constantsService.CHART_COLORS[0],
-                                            constantsService.CHART_COLORS[1],
-                                            'random');
+            var obj = {
+                name : 'chart5',
+                description: '',
+                attr : 'OpenerName',
+                type : 'default',
+                filter : 'filterByIncidentOpenerName',
+                title : 4,
+                label : false,
+                fontSize : 10,
+                xAxesFontsize : 8,
+                chartType : 'bar',
+                defaultColor1 : 0,
+                defaultColor2 : 1,
+                anim : 'random'
+            };
+
+            /*Chart 5*/
+            $scope[obj.name] = helperService.createChart($scope.filteredByRelease, obj);
 
         };
+
         /*Filtered Release Incidents by Priority*/
         $scope.filterReleaseByPriority = function(){
 
-            $scope.chart6 = helperService.getDataChartObject($scope.filteredByRelease, 
-                                            'PriorityName', 
-                                            'default', 
-                                            'filterByPriorityName');
-            $scope.chart6.options = helperService.getOpsChartObject(5, true, 10, 8);
-            $scope.chart6.chart = helperService.setChartObject('chart6', 
-                                            'pie', 
-                                            $scope.chart6.labels,
-                                            $scope.chart6.data,
-                                            $scope.chart6.options,
-                                            '',
-                                            constantsService.CHART_COLORS[0],
-                                            constantsService.CHART_COLORS[1],
-                                            'random');
+            var obj = {
+                name : 'chart6',
+                description: '',
+                attr : 'PriorityName',
+                type : 'default',
+                filter : 'filterByPriorityName',
+                title : 5,
+                label : true,
+                fontSize : 10,
+                xAxesFontsize : 8,
+                chartType : 'pie',
+                defaultColor1 : 0,
+                defaultColor2 : 1,
+                anim : 'random'
+            };
+
+            /*Chart 6*/
+            $scope[obj.name] = helperService.createChart($scope.filteredByRelease, obj);
+
         };
+
         /*Filtered Release Incidents by Owner Name*/
         $scope.filterReleaseByOwnerName = function(){
 
-            $scope.chart7 = helperService.getDataChartObject($scope.filteredByRelease, 
-                                            'OwnerName', 
-                                            'default', 
-                                            'filterByOwnerName');
-            $scope.chart7.options = helperService.getOpsChartObject(7, false, 10, 8);
-            $scope.chart7.chart = helperService.setChartObject('chart7', 
-                                            'bar', 
-                                            $scope.chart7.labels,
-                                            $scope.chart7.data,
-                                            $scope.chart7.options,
-                                            '',
-                                            constantsService.CHART_COLORS[0],
-                                            constantsService.CHART_COLORS[1],
-                                            'random');
+            var obj = {
+                name : 'chart7',
+                description: '',
+                attr : 'OwnerName',
+                type : 'default',
+                filter : 'filterByOwnerName',
+                title : 7,
+                label : false,
+                fontSize : 10,
+                xAxesFontsize : 8,
+                chartType : 'bar',
+                defaultColor1 : 0,
+                defaultColor2 : 1,
+                anim : 'random'
+            };
+
+            /*Chart 7*/
+            $scope[obj.name] = helperService.createChart($scope.filteredByRelease, obj);
+
         };
+
         /*Filtered Release Incidents by DEV Owener*/
         $scope.filterReleaseByDevOwener = function(){
 
-            $scope.chart8 = helperService.getDataChartObject($scope.filteredByRelease, 
-                                            'CustomProperties', 
-                                            'propsDevOwner', 
-                                            'filterByPropsDevOwner',
-                                            $scope.users); //Optional Array to retrieve userFullName value.
-            $scope.chart8.options = helperService.getOpsChartObject(8, false, 10, 8);
-            $scope.chart8.chart = helperService.setChartObject('chart8', 
-                                            'bar', 
-                                            $scope.chart8.labels,
-                                            $scope.chart8.data,
-                                            $scope.chart8.options,
-                                            '',
-                                            constantsService.CHART_COLORS[0],
-                                            constantsService.CHART_COLORS[1],
-                                            'random');
+            var obj = {
+                name : 'chart8',
+                description: '',
+                attr : 'CustomProperties',
+                type : 'propsDevOwner',
+                filter : 'filterByPropsDevOwner',
+                title : 8,
+                label : false,
+                fontSize : 10,
+                xAxesFontsize : 8,
+                chartType : 'bar',
+                defaultColor1 : 0,
+                defaultColor2 : 1,
+                anim : 'random'
+            };
+
+            /*Chart 8*/
+            $scope[obj.name] = helperService.createChart($scope.filteredByRelease, obj, $scope.users);
+
         };
+
         /*Filtered Release Incidents by Channel/Devices*/
         $scope.filterReleaseByChannel = function(){
+
+            var obj = {
+                name : 'chart9',
+                description: '',
+                attr : 'CustomProperties',
+                type : 'propsChannel',
+                filter : 'filterByPropsChannel',
+                title : 9,
+                label : true,
+                fontSize : 10,
+                xAxesFontsize : 8,
+                chartType : 'pie',
+                defaultColor1 : 0,
+                defaultColor2 : 1,
+                anim : 'random'
+            };
+
+            /*Chart 9*/
+            $scope[obj.name] = helperService.createChart($scope.filteredByRelease, obj, $scope.properties);
             
-            $scope.chart9 = helperService.getDataChartObject($scope.filteredByRelease, 
-                                            'CustomProperties', 
-                                            'propsChannel', 
-                                            'filterByPropsChannel',
-                                            $scope.properties); //Optional Array to retrieve userFullName value.
-            $scope.chart9.options = helperService.getOpsChartObject(9, true, 10, 8);
-            $scope.chart9.chart = helperService.setChartObject('chart9', 
-                                            'pie', 
-                                            $scope.chart9.labels,
-                                            $scope.chart9.data,
-                                            $scope.chart9.options,
-                                            '',
-                                            constantsService.CHART_COLORS[0],
-                                            constantsService.CHART_COLORS[1],
-                                            'random');
         };
 
         /*Select/Unselect handler*/

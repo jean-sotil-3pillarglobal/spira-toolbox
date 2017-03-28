@@ -14,6 +14,7 @@
 		    });
 		    return container;
 		};
+
 		var bindArrayWithValue = function(array1, array2, type){
 		    var container = [];
 		    $(array1).each(function(i, value){
@@ -23,6 +24,7 @@
 		    });
 		    return container;
 		};
+
 		/*Get Labels*/
 		var getLabelsArray = function(array, index, type){
 		    var container = [];
@@ -77,6 +79,7 @@
 		    }
 		    return container;
 		};
+
 		var validateDataArray = function(array){
 		    var empty = false;
 
@@ -86,6 +89,7 @@
 		    });
 		    return empty;
 		};
+
 		/*Get Chart.js Object*/
 		var setChartObject = function(id, type, labels, data, options, label, bgColor, borderColor, typeChart, animation){
 		    var chart = document.getElementById(id);
@@ -182,6 +186,37 @@
 				display : display
 			};
 		};
+
+		/*Returns full chart obj*/
+		var createChart = function(array, obj, arrProps){
+
+			var chart = {};
+
+            chart = getDataChartObject(array, 
+                                    obj.attr, 
+                                    obj.type, 
+                                    obj.filter,
+                                    arrProps);
+
+            chart.options = getOpsChartObject(obj.title, 
+											obj.label, 
+											obj.fontSize, 
+											obj.xAxesFontsize);
+
+            chart.chart = setChartObject(obj.name, 
+                                    obj.chartType, 
+                                    chart.labels,
+                                    chart.data,
+                                    chart.options,
+                                    obj.description,
+                                    constantsService.CHART_COLORS[obj.defaultColor1],
+                                    constantsService.CHART_COLORS[obj.defaultColor2],
+                                    obj.anim);
+
+            /*return full chart*/
+            return chart;
+
+        };
 
 		var getPropertyArray = function(index, array){
 			for (var i = 0; i < array.length; i++) {
@@ -285,6 +320,7 @@
 			setChartObject : setChartObject,
 			getDataChartObject : getDataChartObject,
 			getOpsChartObject : getOpsChartObject,
+			createChart : createChart,
 			getColorsArray : getColorsArray,
 			getIncidentsByDateRanges : getIncidentsByDateRanges,
 			isEqual : isEqual
