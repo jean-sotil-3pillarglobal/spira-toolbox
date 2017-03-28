@@ -27,7 +27,6 @@
         $scope.startDate = null;
         $scope.properties = [];
         $scope.filteredByRelease = [];
-        $scope.releaseTask = [];
         $scope.years = [];
         $scope.id = parseInt($stateParams.id);
 
@@ -88,8 +87,10 @@
                 /*get all tasks in current project*/
                 dataService.getProjectTasksByCreationDate($scope.id, $scope.tasks, $scope.startDate).then(function(response){
                     $scope.tasksByDate.push(response.data);
+                    $scope.tasksByRelease = helperService.getLabelsArray($scope.tasksByDate[0], 'ReleaseVersionNumber', 'default');
                     
                     console.log($scope.tasksByDate);
+                    console.log($scope.tasksByRelease);
                 });
             });
         };
@@ -113,7 +114,7 @@
             var filter = [$scope.selected.year, 'filterByYear'];
             $scope.filteredByYear = $filter('filterFindBy')($scope.incidents, filter);
 
-            
+
             /*Chart 1 - Reported by Month*/
             $scope.chart1 = helperService.getDataChartObject($scope.filteredByYear, 
                                             'CreationDate', 
@@ -159,7 +160,7 @@
             
             var filter = [versionNumber, 'filterByReleaseVersionNumber'];
             $scope.filteredByRelease = $filter('filterFindBy')($scope.filteredByYear, filter);
-            
+
             /*Init Release charts*/
             $scope.filterReleaseByTypeName();
             $scope.filterReleaseByStatus();
