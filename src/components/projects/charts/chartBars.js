@@ -20,7 +20,7 @@
 					$canvas = $link.parent().find("canvas")[0];
 
 				$link.prop("href", $canvas.toDataURL());
-				$link.prop("download", "chart-" + randomID(10,"aA") + ".png");
+				$link.prop("download", "chart-" + window.randomID(10,"aA") + ".png");
 			};
 		}
 	});
