@@ -9,7 +9,7 @@
 			<label class="col-sm-11">
 				<h4 class="cols-sm-10">{{project.Name}} <em>({{project.ProjectId}})</em></h4>
 				<p class="help-block small" ng-bind-html="project.Description | trust"></p>
-				<a ui-sref="app.releases({ id: project.ProjectId })" class="btn btn-primary" ng-disabled="{{!project.Active}}">See releases</a>
+				<a ui-sref="app.releases({ id: project.ProjectId })" class="btn btn-primary" ng-disabled="{{!project.Active}}">See more</a>
 			</label>
 			<div class="col-sm-1 checkbox" ng-show="project.Checked">
 				<label style="font-size: 2.5em">

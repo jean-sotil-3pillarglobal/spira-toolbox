@@ -29,18 +29,11 @@
         $scope.filteredByRelease = [];
         $scope.releaseTask = [];
         $scope.years = [];
-        $scope.id = parseInt($stateParams.id);
 
-        /*Charts*/
-        $scope.chart3 = {};
-        $scope.chart4 = {};
-        $scope.chart5 = {};
-        $scope.chart6 = {};
-        $scope.chart7 = {};
-        $scope.chart8 = {};
 
         /*Getting global data*/
-        if(!isNaN($scope.id)){
+        if(!isNaN(parseInt($stateParams.id))){
+            $scope.id = parseInt($stateParams.id);
             
             dataService.getProjectById($scope.id).then(function(response){
                 $scope.project = response.data;
@@ -102,7 +95,31 @@
             $scope.selected.release = null;
             $scope.filteredByRelease = [];
         };
+        
+        /*----------  Tasks      ----------*/
+        /*Filtered Project Task by Release Number*/
+        $scope.filterReleaseTaskByReleaseNumber = function(versionNumber){
+            var filterTask = [versionNumber, 'filterTasksReleaseVersionNumber'];
+                $scope.filteredByReleaseTask = $filter('filterFindBy')($scope.tasksByDate, filterTask);
+                $scope.taskOwners = [];
+             
+            var devOwners      = helperService.getLabelsArray($scope.filteredByReleaseTask, 'OwnerName', 'default');
+            var devOwnersTasks = helperService.bindArrayWithValue(devOwners, $scope.filteredByReleaseTask, 'filterByOwnerName');
 
+            $.each(devOwners, function(index, owner){
+                $scope.taskOwners.push({
+                    "owner" : owner,
+                    "tasks" : devOwnersTasks[index],
+                    "totalActualEffort":getTotalOfTime(devOwnersTasks[index], 'ActualEffort'),
+                    "totalEstimatedEffort":getTotalOfTime(devOwnersTasks[index], 'EstimatedEffort'),
+                    "doughnut" : {
+                        id : 'doughnut'+window.randomID(6,"aA").toLowerCase()
+                    }
+                });
+            });
+        };
+
+        /*----------  Incidents  ----------*/
         /*Filtered Project Incidents by Year*/
         $scope.filterProjectIncidentsByYear = function(){
             
@@ -159,16 +176,10 @@
         /*Filtered Project Incidents by Specific Release*/
         $scope.filterReleaseByReleaseVersion = function(versionNumber){
             
-            var filterIncidents = [versionNumber, 'filterByReleaseVersionNumber'],
-                filterTask = [versionNumber, 'filterTasksReleaseVersionNumber'];
-
-            $scope.filteredByRelease = $filter('filterFindBy')($scope.incidents, filterIncidents);
-            $scope.filteredByReleaseTask = $filter('filterFindBy')($scope.tasksByDate, filterTask);
+            var filterIncidents = [versionNumber, 'filterByReleaseVersionNumber'];
+                $scope.filteredByRelease = $filter('filterFindBy')($scope.incidents, filterIncidents);
             
-
-            console.log(helperService.getLabelsArray($scope.filteredByReleaseTask, 'OwnerName', 'default'));
-            
-            /*Init Release charts*/
+            /*Incidents Release charts*/
             $scope.filterReleaseByTypeName();
             $scope.filterReleaseByStatus();
             $scope.filterReleaseByOpenerName();
@@ -178,6 +189,9 @@
             /*Custom Properties*/
             $scope.filterReleaseByDevOwener();
             $scope.filterReleaseByChannel();
+
+            /*Tasks Release*/
+            $scope.filterReleaseTaskByReleaseNumber(versionNumber);
         };
 
         /*Filtered Release Incidents by Type Name*/
@@ -376,7 +390,8 @@
                 }
             }
         };
-        /*Select/Unselect All*/
+
+        /*Tasks results*/
         $scope.toggleAllSelect = function(){
             
             if(!$scope.selectAll){
@@ -395,6 +410,17 @@
                 $scope.selectAll = false;
                 toastrService.info("None", "no projects are selected.");
             }
+        };
+
+        var getTotalOfTime = function(tasks, attr){
+            var counter = 0;
+            if(tasks){
+                for (var i = 0; i < tasks.length; i++) {
+                    var value = (isNaN(tasks[i][attr]) || !tasks[i][attr])? 0 : tasks[i][attr];
+                        counter = counter + Math.abs(parseInt(value));
+                }
+            }
+            return counter;
         };
     };
 

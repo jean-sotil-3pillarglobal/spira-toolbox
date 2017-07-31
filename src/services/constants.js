@@ -32,6 +32,7 @@
 					  'Total Incidents Filtered By Owner', 				//7
 					  'Total Incidents Filtered By DEV Owner', 			//8
 					  'Total Incidents Filtered By Channel/Devices', 	//9
+					  'Total Progress %', 								//10
 					  ],
 		CHART_COLORS:['rgb(255,255,244)', 		//Default bar color
 					  'rgb(7,54,66)', 			//Default bar color

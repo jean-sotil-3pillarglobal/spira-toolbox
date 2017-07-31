@@ -1,0 +1,64 @@
+<div class="cf">
+
+  <h3>{{mv.data.owner}}</h3>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Status</th>
+        <th>%</th>
+        <th>Actual Effort</th>
+        <th>Est. Effort</th>
+        <th>Remaining</th>
+        <th>Completed</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="task in mv.data.tasks" ng-class="((task.ActualEffort/task.EstimatedEffort)*100)+0>=100?'table-success':''">
+        <th scope="row" class="text-center">{{task.TaskId}}</th>
+        <td>{{task.Name}}</td>
+        <td class="{{(task.ActualEffort>0 && task.ActualEffort != 0)?'table-success':'table-warning'}} text-right"><i>{{task.ActualEffort>0?'Started':'Not Started'}}</i></td>
+        <td>{{((task.ActualEffort/task.EstimatedEffort)*100)+0 | number : 2}}%</td>
+        <td class="text-right">{{task.ActualEffort/60}} hrs.</td> 
+        <td class="text-right">{{task.EstimatedEffort/60}} hrs.</td>
+        <td class="text-right">{{(task.EstimatedEffort-task.ActualEffort)/60}} hrs.</td>
+        <td class="{{((task.ActualEffort/task.EstimatedEffort)*100)+0>=100?'fa fa-check':'fa fa-clock-o'}}" aria-hidden="true">C</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="row">
+    <div class="col-md-6">
+      <bars selector="{{mv.data.doughnut.id}}" data="mv.data.doughnut.data" year="mv.data.owner" display="mv.data.doughnut.display" /></bars>
+      
+    </div>
+    <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-12">
+              <h4>Summary</h4>
+          </div>
+          <!-- row 1 -->
+          <div class="col-md-6">
+              <strong>Total Est. Effort</strong>
+          </div>
+          <div class="col-md-6">
+              <label>{{mv.data.totalEstimatedEffort/60}} hrs.</label>
+          </div>
+          <!-- row 2 -->
+          <div class="col-md-6">
+              <strong>Total Act. Effort</strong>
+          </div>
+          <div class="col-md-6">
+              <label>{{mv.data.totalActualEffort/60}} hrs.</label>
+          </div>
+          <!-- row 3 -->
+          <div class="col-md-6">
+              <strong>Total Progress</strong>
+          </div>
+          <div class="col-md-6">
+              <div ng-init="mv.makeCalc(mv.data)">{{mv.data.totalProgress | number : 2}}%</div>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>

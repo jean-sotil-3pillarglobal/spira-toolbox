@@ -147,6 +147,16 @@
 		            };
 		            body.options = options;
 		    	break;
+		    	case 'doughnut':
+		    		dataset = {
+		                label: label,
+		                data: data,
+		                backgroundColor: getColorsArray(bgColor, labels, typeChart),
+		                borderColor: getColorsArray(borderColor, labels, 'border'),
+		                borderWidth: 1
+		            };
+		            body.options = options;
+		    	break;
 		    }
 
 		    /*chart body*/
